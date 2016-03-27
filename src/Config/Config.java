@@ -9,4 +9,7 @@ public class Config {
 		CONFIG_DATE
 	};
 	private static Map<String, String> configs = new HashMap<String, String>();
+	public static String getAttr(String attrName){
+		return configs.get(attrName);
+	}
 }
