@@ -28,7 +28,7 @@ class RawPoint{
 	public double lon,lat;
 	public long lac,cell;
 	public String time;
-	public int event;//淇′护鏁版嵁浜嬩欢浣嶏紝鏆傛椂涓嶇敤
+	public int event;//信令数据事件位，暂时不用
 }
 //用户原始记录
 class RawRecord{
