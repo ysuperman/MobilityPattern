@@ -25,7 +25,7 @@ import java.util.Set;
  */
 //原始点
 class RawPoint{
-	public double lon,lat;
+	public double lon,lat;//经纬度
 	public long lac,cell;
 	public String time;
 	public int event;//信令数据事件位，暂时不用
