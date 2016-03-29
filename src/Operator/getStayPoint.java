@@ -70,8 +70,8 @@ public class getStayPoint {
 	public static String goodUserPathName = workPath+date+"\\4goodUser\\";
 	public static String goodRecordPathName = workPath+date+"\\5goodRecord\\";
 	public static String stayRecordPathName = workPath+date+"\\7stayRecord\\";
-	public static final int TRD = 500;//(Threshold of Roaming Distance)空间阈值500米
-	public static final int TRT = 30;//(Threshold of Roaming Time)时间阈值10分钟
+	public static final int TRD = 1000;//(Threshold of Roaming Distance)空间阈值,单位：米
+	public static final int TRT = 30;//(Threshold of Roaming Time)时间阈值，单位：分钟
 	public static List<RawRecord> rawRecords = new LinkedList<RawRecord>();;
 	public static List<StayRecord> stayRecords = new LinkedList<StayRecord>();;
 	//读入RawRecord用户原始记录信息
@@ -104,9 +104,9 @@ public class getStayPoint {
 		}
 		br.close();
 	}
-	//计算StayRecord用户停留点信息
-	public static void calStayRecord(){
-		System.out.println("Now calculating...");
+	//计算StayRecord用户停留点信息:集合or方法扩展
+	public static void calStayRecord_or(){
+		System.out.println("Now calculating or...");
 		stayRecords.clear();
 		for(RawRecord user:rawRecords){
 			StayRecord stay = new StayRecord(user.id,user.date);
@@ -118,7 +118,7 @@ public class getStayPoint {
 				tempStays.add(user.rawPoints.get(newStart));
 				int newAdd = 1;
 				int newEnd = newStart + newAdd;
-				while(newAdd>0 && newStart<user.rawPoints.size()){
+				while(newAdd>0 && newEnd<user.rawPoints.size()){
 					newAdd = 0;
 					for(int i=newStart;i<newEnd;i++){
 						int j=i+1;
@@ -131,15 +131,16 @@ public class getStayPoint {
 					newStart = newEnd;
 					newEnd = newStart + newAdd;
 				}//end while newAdd
+				//finish generate tempStays
 				//do something with tempStays
-				if(tempStays.size()==1 || timeSpan(tempStays.get(0).time,tempStays.get(tempStays.size()-1).time)<TRT){
+				if(tempStays.size()<=1 || timeSpan(tempStays.get(0).time,tempStays.get(tempStays.size()-1).time)<TRT){
 					start+=1;
 					StayPoint sp = new StayPoint();
 					sp.lon = tempStays.get(0).lon;
 					sp.lat = tempStays.get(0).lat;
 					sp.sTime = tempStays.get(0).time;
 					sp.eTime = tempStays.get(0).time;
-					sp.event = tempStays.get(0).event;
+					sp.event = 0;
 					sp.state = 0;
 					stay.stayPoints.add(sp);
 				}else{
@@ -161,10 +162,79 @@ public class getStayPoint {
 					sp.state = 1;
 					stay.stayPoints.add(sp);
 				}
-			}//end while newStart
+			}//end while start
 			stayRecords.add(stay);
 		}//end for user
 	}
+	//计算StayRecord用户停留点信息:集合and方法扩展
+	public static void calStayRecord_and(){
+		System.out.println("Now calculating and...");
+		stayRecords.clear();
+		for(RawRecord user:rawRecords){
+			StayRecord stay = new StayRecord(user.id,user.date);
+			List<RawPoint> tempStays = new LinkedList<RawPoint>();
+			int start=0;
+			while(start<user.rawPoints.size()){
+				tempStays.clear();
+				int newStart = start;
+				tempStays.add(user.rawPoints.get(newStart));
+				int newAdd = 1;
+				int newEnd = newStart + newAdd;
+				while(newAdd>0 && newEnd<user.rawPoints.size()){
+					newAdd = 0;
+					int j=newEnd;
+					while(j<user.rawPoints.size() && !tempStays.contains(user.rawPoints.get(j))){
+						boolean ok=true;
+						for(int i=newStart;i<newEnd;i++){
+							if(distanceInGlobal(user.rawPoints.get(i),user.rawPoints.get(j))>TRD){
+								ok=false;
+								break;
+							}//end if i,j
+						}//end for i
+						if(!ok)
+							break;
+						tempStays.add(user.rawPoints.get(j));
+						newAdd+=1;
+						j+=1;
+					}//end while j
+					newStart = newEnd;
+					newEnd = newStart + newAdd;
+				}//end while newAdd
+				//finish generate tempStays
+				//do something with tempStays
+				if(tempStays.size()<=1 || timeSpan(tempStays.get(0).time,tempStays.get(tempStays.size()-1).time)<TRT){
+					start+=1;
+					StayPoint sp = new StayPoint();
+					sp.lon = tempStays.get(0).lon;
+					sp.lat = tempStays.get(0).lat;
+					sp.sTime = tempStays.get(0).time;
+					sp.eTime = tempStays.get(0).time;
+					sp.event = 0;
+					sp.state = 0;
+					stay.stayPoints.add(sp);
+				}else{
+					start+=tempStays.size();
+					double mLon = 0;
+					double mLat = 0;
+					for(int i=0;i<tempStays.size();i++){
+						mLon+=tempStays.get(i).lon;
+						mLat+=tempStays.get(i).lat;
+					}
+					mLon/=tempStays.size();
+					mLat/=tempStays.size();
+					StayPoint sp = new StayPoint();
+					sp.lon = mLon;
+					sp.lat = mLat;
+					sp.sTime = tempStays.get(0).time;
+					sp.eTime = tempStays.get(tempStays.size()-1).time;
+					sp.event = 0;
+					sp.state = 1;
+					stay.stayPoints.add(sp);
+				}
+			}//end while start
+			stayRecords.add(stay);
+		}//end for user
+	}	
 	//输出StayRecord用户停留点信息
 	public static void exportStayRecord(String stayRecordFileName)throws Exception{
 		stayRecordFileName = stayRecordPathName + stayRecordFileName;
@@ -173,7 +243,7 @@ public class getStayPoint {
 		DecimalFormat df = new DecimalFormat("#.000000");
 		for(StayRecord user:stayRecords){
 			for(StayPoint point:user.stayPoints){
-				bw.write(user.id+","+user.date+","+point.sTime+","+point.eTime+","+df.format(point.lon)+","+df.format(point.lat)+","+point.state+"\n");
+				bw.write(user.id+","+user.date+","+point.sTime+"-"+point.eTime+","+df.format(point.lon)+","+df.format(point.lat)+","+point.state+"\n");
 			}
 		}
 		bw.close();
@@ -205,13 +275,12 @@ public class getStayPoint {
 	public static void main(String[] args)throws Exception{
 		File goodRecordPath = new File(goodRecordPathName);
 		File[] goodRecordFiles = goodRecordPath.listFiles();
-		//System.out.println(timeSpan("191708","191730"));
-		
+				
 		for(File file:goodRecordFiles){
 			importRawRecord(file);
-			calStayRecord();
+			calStayRecord_and();
 			exportStayRecord(file.getName());
-			//break;
+			break;
 		}
 		
 		System.out.println("finish");
