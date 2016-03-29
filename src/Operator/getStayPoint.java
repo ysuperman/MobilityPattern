@@ -72,8 +72,9 @@ public class getStayPoint {
 	public static String stayRecordPathName = workPath+date+"\\7stayRecord\\";
 	public static final int TRD = 1000;//(Threshold of Roaming Distance)空间阈值,单位：米
 	public static final int TRT = 30;//(Threshold of Roaming Time)时间阈值，单位：分钟
-	public static List<RawRecord> rawRecords = new LinkedList<RawRecord>();;
-	public static List<StayRecord> stayRecords = new LinkedList<StayRecord>();;
+	public static List<RawRecord> rawRecords = new LinkedList<RawRecord>();
+	public static List<StayRecord> stayRecords = new LinkedList<StayRecord>();
+	//public static long[] stat = new long[12];//统计用户停留点分布
 	//读入RawRecord用户原始记录信息
 	public static void importRawRecord(File goodRecordFileName)throws Exception{
 		System.out.println("Now importing RawRecord: "+goodRecordFileName.getAbsolutePath());
@@ -272,17 +273,37 @@ public class getStayPoint {
 		span = span - (Integer.valueOf(a.substring(0,2))*60+Integer.valueOf(a.substring(2,4)));
 		return span;
 	}
+	/*
+	public static void stat(){
+		for(StayRecord user:stayRecords){
+			int count = 0;
+			for(StayPoint point:user.stayPoints){
+				if(point.state==1)
+					count+=1;
+			}
+			if(count<=10)
+				stat[count]+=1;
+			else
+				stat[11]+=1;
+		}
+	}
+	*/
 	public static void main(String[] args)throws Exception{
 		File goodRecordPath = new File(goodRecordPathName);
 		File[] goodRecordFiles = goodRecordPath.listFiles();
-				
+		int j=0;
 		for(File file:goodRecordFiles){
 			importRawRecord(file);
 			calStayRecord_and();
+			//stat();
 			exportStayRecord(file.getName());
-			break;
+			if(++j>10)
+				break;
 		}
-		
 		System.out.println("finish");
+		/*
+		for(int i=0;i<12;i++)
+			System.out.println(i+":"+stat[i]);
+		*/
 	}
 }
