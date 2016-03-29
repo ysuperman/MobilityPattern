@@ -71,7 +71,7 @@ public class getStayPoint {
 	public static String goodRecordPathName = workPath+date+"\\5goodRecord\\";
 	public static String stayRecordPathName = workPath+date+"\\7stayRecord\\";
 	public static final int TRD = 500;//(Threshold of Roaming Distance)空间阈值500米
-	public static final int TRT = 30;//(Threshold of Roaming Time)空间阈值10分钟
+	public static final int TRT = 30;//(Threshold of Roaming Time)时间阈值10分钟
 	public static List<RawRecord> rawRecords = new LinkedList<RawRecord>();;
 	public static List<StayRecord> stayRecords = new LinkedList<StayRecord>();;
 	//读入RawRecord用户原始记录信息
