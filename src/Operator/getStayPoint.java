@@ -147,21 +147,7 @@ public class getStayPoint {
 					stay.stayPoints.add(sp);
 				}else{
 					start+=tempStays.size();
-					double mLon = 0;
-					double mLat = 0;
-					for(int i=0;i<tempStays.size();i++){
-						mLon+=tempStays.get(i).lon;
-						mLat+=tempStays.get(i).lat;
-					}
-					mLon/=tempStays.size();
-					mLat/=tempStays.size();
-					StayPoint sp = new StayPoint();
-					sp.lon = mLon;
-					sp.lat = mLat;
-					sp.sTime = tempStays.get(0).time;
-					sp.eTime = tempStays.get(tempStays.size()-1).time;
-					sp.event = 0;
-					sp.state = 1;
+					StayPoint sp = calStayPoint(tempStays);
 					stay.stayPoints.add(sp);
 				}
 			}//end while start
@@ -179,7 +165,7 @@ public class getStayPoint {
 			while(start<user.rawPoints.size()){
 				tempStays.clear();
 				int newStart = start;
-				tempStays.add(user.rawPoints.get(newStart));
+				tempStays.add(user.rawPoints.get(start));
 				int newAdd = 1;
 				int newEnd = newStart + newAdd;
 				while(newAdd>0 && newEnd<user.rawPoints.size()){
@@ -216,27 +202,67 @@ public class getStayPoint {
 					stay.stayPoints.add(sp);
 				}else{
 					start+=tempStays.size();
-					double mLon = 0;
-					double mLat = 0;
-					for(int i=0;i<tempStays.size();i++){
-						mLon+=tempStays.get(i).lon;
-						mLat+=tempStays.get(i).lat;
-					}
-					mLon/=tempStays.size();
-					mLat/=tempStays.size();
-					StayPoint sp = new StayPoint();
-					sp.lon = mLon;
-					sp.lat = mLat;
-					sp.sTime = tempStays.get(0).time;
-					sp.eTime = tempStays.get(tempStays.size()-1).time;
-					sp.event = 0;
-					sp.state = 1;
+					StayPoint sp = calStayPoint(tempStays);
 					stay.stayPoints.add(sp);
 				}
 			}//end while start
 			stayRecords.add(stay);
 		}//end for user
-	}	
+	}
+	//以停留点序列中每个停留点的停留时长作为权重计算停留点
+	public static StayPoint calStayPoint(List<RawPoint> tempStays){
+		StayPoint sp = new StayPoint();
+		long timeLength,totalTimeLength = 0;
+		double mLon = 0.0;
+		double mLat = 0.0;
+		String prevTime,thisTime,nextTime;
+		//计算第0个点
+		thisTime = tempStays.get(0).time;
+		nextTime = tempStays.get(1).time;
+		timeLength = timeSpan(thisTime,nextTime);
+		if(timeLength>1)
+			timeLength/=2;
+		else
+			timeLength=1;
+		mLon+=tempStays.get(0).lon*timeLength;
+		mLat+=tempStays.get(0).lat*timeLength;
+		totalTimeLength+=timeLength;
+		//计算第1-倒数第2个点
+		for(int i=1;i<tempStays.size()-1;i++){
+			prevTime = tempStays.get(i-1).time;
+			thisTime = tempStays.get(i).time;
+			nextTime = tempStays.get(i+1).time;
+			timeLength = timeSpan(prevTime,thisTime)+timeSpan(thisTime,nextTime);
+			if(timeLength>1)
+				timeLength/=2;
+			else
+				timeLength=1;
+			mLon+=tempStays.get(i).lon*timeLength;
+			mLat+=tempStays.get(i).lat*timeLength;
+			totalTimeLength+=timeLength;
+		}
+		//计算最后一个点
+		prevTime = tempStays.get(tempStays.size()-2).time;
+		thisTime = tempStays.get(tempStays.size()-1).time;
+		timeLength = timeSpan(prevTime,thisTime);
+		if(timeLength>1)
+			timeLength/=2;
+		else
+			timeLength=1;
+		mLon+=tempStays.get(tempStays.size()-1).lon*timeLength;
+		mLat+=tempStays.get(tempStays.size()-1).lat*timeLength;
+		totalTimeLength+=timeLength;
+		//计算加权平均值
+		mLon/=totalTimeLength;
+		mLat/=totalTimeLength;
+		sp.lon = mLon;
+		sp.lat = mLat;
+		sp.sTime = tempStays.get(0).time;
+		sp.eTime = tempStays.get(tempStays.size()-1).time;
+		sp.event = 0;
+		sp.state = 1;
+		return sp;
+	}
 	//输出StayRecord用户停留点信息
 	public static void exportStayRecord(String stayRecordFileName)throws Exception{
 		stayRecordFileName = stayRecordPathName + stayRecordFileName;
@@ -272,8 +298,11 @@ public class getStayPoint {
 	public static int timeSpan(String a, String b){
 		int span = Integer.valueOf(b.substring(0,2))*60+Integer.valueOf(b.substring(2,4));
 		span = span - (Integer.valueOf(a.substring(0,2))*60+Integer.valueOf(a.substring(2,4)));
+		if(span<0)
+			span=-span;
 		return span;
 	}
+	//统计用户停留点数量分布
 	/*
 	public static void stat(){
 		for(StayRecord user:stayRecords){
@@ -298,7 +327,7 @@ public class getStayPoint {
 			calStayRecord();
 			//stat();
 			exportStayRecord(file.getName());
-			if(++j>10)
+			if(++j>=1)
 				break;
 		}
 		System.out.println("finish");
