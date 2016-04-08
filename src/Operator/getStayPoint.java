@@ -11,6 +11,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import Model.RawPoint;
+import Model.RawRecord;
+import Model.StayPoint;
+import Model.StayRecord;
+
 /*
  * author:youg
  * date:20160328
@@ -23,43 +28,7 @@ import java.util.Set;
  * 5goodRecord:4goodUser列表里的用户的完整记录，按id后两位分割到不同文件中
  * 7stayRecord:从5goodRecord中提取出的用户停留点记录
  */
-//原始点
-class RawPoint{
-	public double lon,lat;
-	public long lac,cell;
-	public String time;
-	public int event;//信令数据事件位，暂时不用
-}
-//用户原始记录
-class RawRecord{
-	public String id;
-	public String date;
-	public List<RawPoint> rawPoints;
-	
-	public RawRecord(String id, String date){
-		this.id = id;
-		this.date = date;
-		rawPoints = new LinkedList<RawPoint>();
-	}
-}
-//停留点
-class StayPoint{
-	public double lon,lat;
-	public String sTime,eTime;
-	public int event;//信令数据事件位，暂时不用
-	public int state;//1：停留点；0：移动点
-}
-//用户停留点记录
-class StayRecord{
-	public String id;
-	public String date;
-	public List<StayPoint> stayPoints;
-	public StayRecord(String id, String date){
-		this.id = id;
-		this.date = date;
-		stayPoints = new LinkedList<StayPoint>();
-	}
-}
+
 
 public class getStayPoint {
 	public static String workPath = "F:\\BJmobile\\";
