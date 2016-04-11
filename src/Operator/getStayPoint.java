@@ -19,32 +19,32 @@ import Model.StayRecord;
 /*
  * author:youg
  * date:20160328
- * ´Ó5goodRecordÖĞÌáÈ¡Ã¿¸öÓÃ»§µÄÍ£Áôµã
- * 0raw:Ô­Ê¼ĞÅÁîÊı¾İ£¬²»°üº¬¾­Î³¶ÈĞÅÏ¢£¬°´Ê±¼ä»®·ÖÎÄ¼ş
- * 1withPos:Ìí¼Ó¾­Î³¶ÈĞÅÏ¢£¬°´idºóÁ½Î»»®·ÖÎÄ¼ş£¬ÎÄ¼şÄÚ°´idºÍÊ±¼äÅÅĞò
- * 2timeSpan:¼ÇÂ¼Ã¿¸öIDÃ¿Ìì×îÔç³öÏÖµÄÊ±¼äºÍÎ»ÖÃÒÔ¼°×îÍí³öÏÖµÄÊ±¼äºÍÎ»ÖÃ
- * 3timeLine£ºÒÔ15·ÖÖÓÎªµ¥Î»Í³¼ÆÃ¿¸öIDÔÚÃ¿¸öÊ±¼ä¶Î³öÏÖµÄ´ÎÊı
- * 4goodUser:Êı¾İÖÊÁ¿ºÃ¡¢ÓÃÓÚÏÂÒ»²½·ÖÎöµÄÓÃ»§IDÁĞ±í¡£ÌáÈ¡¹æÔò£º7µãÇ°¡¢19µãºóÓĞ¼ÇÂ¼£¬7-19µãÃ¿3¸öĞ¡Ê±ÓĞ¼ÇÂ¼µÄÓÃ»§ÊıËùÕ¼±ÈÀı£»ÓÃ»§±ÈÀı£º55%
- * 5goodRecord:4goodUserÁĞ±íÀïµÄÓÃ»§µÄÍêÕû¼ÇÂ¼£¬°´idºóÁ½Î»·Ö¸îµ½²»Í¬ÎÄ¼şÖĞ
- * 7stayRecord:´Ó5goodRecordÖĞÌáÈ¡³öµÄÓÃ»§Í£Áôµã¼ÇÂ¼
+ * ä»5goodRecordä¸­æå–æ¯ä¸ªç”¨æˆ·çš„åœç•™ç‚¹
+ * 0raw:åŸå§‹ä¿¡ä»¤æ•°æ®ï¼Œä¸åŒ…å«ç»çº¬åº¦ä¿¡æ¯ï¼ŒæŒ‰æ—¶é—´åˆ’åˆ†æ–‡ä»¶
+ * 1withPos:æ·»åŠ ç»çº¬åº¦ä¿¡æ¯ï¼ŒæŒ‰idåä¸¤ä½åˆ’åˆ†æ–‡ä»¶ï¼Œæ–‡ä»¶å†…æŒ‰idå’Œæ—¶é—´æ’åº
+ * 2timeSpan:è®°å½•æ¯ä¸ªIDæ¯å¤©æœ€æ—©å‡ºç°çš„æ—¶é—´å’Œä½ç½®ä»¥åŠæœ€æ™šå‡ºç°çš„æ—¶é—´å’Œä½ç½®
+ * 3timeLineï¼šä»¥15åˆ†é’Ÿä¸ºå•ä½ç»Ÿè®¡æ¯ä¸ªIDåœ¨æ¯ä¸ªæ—¶é—´æ®µå‡ºç°çš„æ¬¡æ•°
+ * 4goodUser:æ•°æ®è´¨é‡å¥½ã€ç”¨äºä¸‹ä¸€æ­¥åˆ†æçš„ç”¨æˆ·IDåˆ—è¡¨ã€‚æå–è§„åˆ™ï¼š7ç‚¹å‰ã€19ç‚¹åæœ‰è®°å½•ï¼Œ7-19ç‚¹æ¯3ä¸ªå°æ—¶æœ‰è®°å½•çš„ç”¨æˆ·æ•°æ‰€å æ¯”ä¾‹ï¼›ç”¨æˆ·æ¯”ä¾‹ï¼š55%
+ * 5goodRecord:4goodUseråˆ—è¡¨é‡Œçš„ç”¨æˆ·çš„å®Œæ•´è®°å½•ï¼ŒæŒ‰idåä¸¤ä½åˆ†å‰²åˆ°ä¸åŒæ–‡ä»¶ä¸­
+ * 7stayRecord:ä»5goodRecordä¸­æå–å‡ºçš„ç”¨æˆ·åœç•™ç‚¹è®°å½•
  */
 
 
 public class getStayPoint {
 	public static String workPath = "F:\\BJmobile\\";
-	public static String date = "20130226";
+	public static String date = "20130228";
 	public static String withPosPathName = workPath+date+"\\1withPos\\";
 	public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
 	public static String timeLinePathName = workPath+date+"\\3timeLine\\";
 	public static String goodUserPathName = workPath+date+"\\4goodUser\\";
 	public static String goodRecordPathName = workPath+date+"\\5goodRecord\\";
 	public static String stayRecordPathName = workPath+date+"\\7stayRecord\\";
-	public static final int TRD = 1000;//(Threshold of Roaming Distance)¿Õ¼äãĞÖµ,µ¥Î»£ºÃ×
-	public static final int TRT = 30;//(Threshold of Roaming Time)Ê±¼äãĞÖµ£¬µ¥Î»£º·ÖÖÓ
+	public static final int TRD = 1000;//(Threshold of Roaming Distance)ç©ºé—´é˜ˆå€¼,å•ä½ï¼šç±³
+	public static final int TRT = 30;//(Threshold of Roaming Time)æ—¶é—´é˜ˆå€¼ï¼Œå•ä½ï¼šåˆ†é’Ÿ
 	public static List<RawRecord> rawRecords = new LinkedList<RawRecord>();
 	public static List<StayRecord> stayRecords = new LinkedList<StayRecord>();
-	//public static long[] stat = new long[12];//Í³¼ÆÓÃ»§Í£Áôµã·Ö²¼
-	//¶ÁÈëRawRecordÓÃ»§Ô­Ê¼¼ÇÂ¼ĞÅÏ¢
+	public static long[] stat = new long[11];//ç»Ÿè®¡ç”¨æˆ·åœç•™ç‚¹åˆ†å¸ƒ
+	//è¯»å…¥RawRecordç”¨æˆ·åŸå§‹è®°å½•ä¿¡æ¯
 	public static void importRawRecord(File goodRecordFileName)throws Exception{
 		System.out.println("Now importing RawRecord: "+goodRecordFileName.getAbsolutePath());
 		rawRecords.clear();
@@ -74,7 +74,7 @@ public class getStayPoint {
 		}
 		br.close();
 	}
-	//¼ÆËãStayRecordÓÃ»§Í£ÁôµãĞÅÏ¢:¼¯ºÏor·½·¨À©Õ¹£¬¸Ã·½·¨ÒÑ¹ıÆÚ
+	//è®¡ç®—StayRecordç”¨æˆ·åœç•™ç‚¹ä¿¡æ¯:é›†åˆoræ–¹æ³•æ‰©å±•ï¼Œè¯¥æ–¹æ³•å·²è¿‡æœŸ
 	@Deprecated
 	public static void calStayRecord_or(){
 		System.out.println("Now calculating or...");
@@ -123,7 +123,7 @@ public class getStayPoint {
 			stayRecords.add(stay);
 		}//end for user
 	}
-	//¼ÆËãStayRecordÓÃ»§Í£ÁôµãĞÅÏ¢:¼¯ºÏand·½·¨À©Õ¹
+	//è®¡ç®—StayRecordç”¨æˆ·åœç•™ç‚¹ä¿¡æ¯:é›†åˆandæ–¹æ³•æ‰©å±•
 	public static void calStayRecord(){
 		System.out.println("Now calculating and...");
 		stayRecords.clear();
@@ -178,14 +178,14 @@ public class getStayPoint {
 			stayRecords.add(stay);
 		}//end for user
 	}
-	//ÒÔÍ£ÁôµãĞòÁĞÖĞÃ¿¸öÍ£ÁôµãµÄÍ£ÁôÊ±³¤×÷ÎªÈ¨ÖØ¼ÆËãÍ£Áôµã
+	//ä»¥åœç•™ç‚¹åºåˆ—ä¸­æ¯ä¸ªåœç•™ç‚¹çš„åœç•™æ—¶é•¿ä½œä¸ºæƒé‡è®¡ç®—åœç•™ç‚¹
 	public static StayPoint calStayPoint(List<RawPoint> tempStays){
 		StayPoint sp = new StayPoint();
 		long timeLength,totalTimeLength = 0;
 		double mLon = 0.0;
 		double mLat = 0.0;
 		String prevTime,thisTime,nextTime;
-		//¼ÆËãµÚ0¸öµã
+		//è®¡ç®—ç¬¬0ä¸ªç‚¹
 		thisTime = tempStays.get(0).time;
 		nextTime = tempStays.get(1).time;
 		timeLength = timeSpan(thisTime,nextTime);
@@ -196,7 +196,7 @@ public class getStayPoint {
 		mLon+=tempStays.get(0).lon*timeLength;
 		mLat+=tempStays.get(0).lat*timeLength;
 		totalTimeLength+=timeLength;
-		//¼ÆËãµÚ1-µ¹ÊıµÚ2¸öµã
+		//è®¡ç®—ç¬¬1-å€’æ•°ç¬¬2ä¸ªç‚¹
 		for(int i=1;i<tempStays.size()-1;i++){
 			prevTime = tempStays.get(i-1).time;
 			thisTime = tempStays.get(i).time;
@@ -210,7 +210,7 @@ public class getStayPoint {
 			mLat+=tempStays.get(i).lat*timeLength;
 			totalTimeLength+=timeLength;
 		}
-		//¼ÆËã×îºóÒ»¸öµã
+		//è®¡ç®—æœ€åä¸€ä¸ªç‚¹
 		prevTime = tempStays.get(tempStays.size()-2).time;
 		thisTime = tempStays.get(tempStays.size()-1).time;
 		timeLength = timeSpan(prevTime,thisTime);
@@ -221,7 +221,7 @@ public class getStayPoint {
 		mLon+=tempStays.get(tempStays.size()-1).lon*timeLength;
 		mLat+=tempStays.get(tempStays.size()-1).lat*timeLength;
 		totalTimeLength+=timeLength;
-		//¼ÆËã¼ÓÈ¨Æ½¾ùÖµ
+		//è®¡ç®—åŠ æƒå¹³å‡å€¼
 		mLon/=totalTimeLength;
 		mLat/=totalTimeLength;
 		sp.lon = mLon;
@@ -232,7 +232,7 @@ public class getStayPoint {
 		sp.state = 1;
 		return sp;
 	}
-	//Êä³öStayRecordÓÃ»§Í£ÁôµãĞÅÏ¢
+	//è¾“å‡ºStayRecordç”¨æˆ·åœç•™ç‚¹ä¿¡æ¯
 	public static void exportStayRecord(String stayRecordFileName)throws Exception{
 		stayRecordFileName = stayRecordPathName + stayRecordFileName;
 		System.out.println("Now exporting StayRecord: "+stayRecordFileName);
@@ -246,8 +246,8 @@ public class getStayPoint {
 		bw.close();
 	}
 	/*
-	 * ¼ÆËãÁ½Î»ÖÃÖ®¼äµÄ¾àÀë£¬¸ù¾İÇòÃæ×ø±ê³¤¶È¹«Ê½¼ÆËã(µ¥Î»£ºÃ×)
-	 * ×¢Òâ£¬Õâ¸ö¼ÆËãºÜºÄÊ±¼ä,ÁíÍâ,Õâ¸ö¼ÆËã°Ñ¾­Î³¶ÈµÄ100Íò±¶»¹Ô­ÁË!
+	 * è®¡ç®—ä¸¤ä½ç½®ä¹‹é—´çš„è·ç¦»ï¼Œæ ¹æ®çƒé¢åæ ‡é•¿åº¦å…¬å¼è®¡ç®—(å•ä½ï¼šç±³)
+	 * æ³¨æ„ï¼Œè¿™ä¸ªè®¡ç®—å¾ˆè€—æ—¶é—´,å¦å¤–,è¿™ä¸ªè®¡ç®—æŠŠç»çº¬åº¦çš„100ä¸‡å€è¿˜åŸäº†!
 	 */
 	public static double distanceInGlobal(double lon1, double lat1, double lon2, double lat2){
 		double x1 = lon1;
@@ -262,7 +262,7 @@ public class getStayPoint {
 		return distanceInGlobal(a.lon, a.lat, b.lon, b.lat);
 	}
 	/*
-	 * ¼ÆËãÁ½¸öÊ±¼äµãÖ®¼äµÄÊ±¼ä²î£¬Ê±¼ä¸ñÊ½¡°HHmmSS¡±£¬·µ»Ø½á¹ûµ¥Î»·ÖÖÓ
+	 * è®¡ç®—ä¸¤ä¸ªæ—¶é—´ç‚¹ä¹‹é—´çš„æ—¶é—´å·®ï¼Œæ—¶é—´æ ¼å¼â€œHHmmSSâ€ï¼Œè¿”å›ç»“æœå•ä½åˆ†é’Ÿ
 	 */
 	public static int timeSpan(String a, String b){
 		int span = Integer.valueOf(b.substring(0,2))*60+Integer.valueOf(b.substring(2,4));
@@ -271,8 +271,8 @@ public class getStayPoint {
 			span=-span;
 		return span;
 	}
-	//Í³¼ÆÓÃ»§Í£ÁôµãÊıÁ¿·Ö²¼
-	/*
+	//ç»Ÿè®¡ç”¨æˆ·åœç•™ç‚¹æ•°é‡åˆ†å¸ƒ
+	
 	public static void stat(){
 		for(StayRecord user:stayRecords){
 			int count = 0;
@@ -280,13 +280,13 @@ public class getStayPoint {
 				if(point.state==1)
 					count+=1;
 			}
-			if(count<=10)
+			if(count<10)
 				stat[count]+=1;
 			else
-				stat[11]+=1;
+				stat[10]+=1;
 		}
 	}
-	*/
+	
 	public static void main(String[] args)throws Exception{
 		File goodRecordPath = new File(goodRecordPathName);
 		File[] goodRecordFiles = goodRecordPath.listFiles();
@@ -294,15 +294,15 @@ public class getStayPoint {
 		for(File file:goodRecordFiles){
 			importRawRecord(file);
 			calStayRecord();
-			//stat();
-			exportStayRecord(file.getName());
-			if(++j>=1)
-				break;
+			stat();
+			//exportStayRecord(file.getName());
+			//if(++j>=1)
+			//	break;
 		}
 		System.out.println("finish");
-		/*
-		for(int i=0;i<12;i++)
+		
+		for(int i=0;i<11;i++)
 			System.out.println(i+":"+stat[i]);
-		*/
+		
 	}
 }

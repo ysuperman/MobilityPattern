@@ -1,11 +1,11 @@
 package Model;
 
-//Ô­Ê¼µã
+//åŸå§‹ç‚¹
 public class RawPoint{
 	public double lon,lat;
 	public long lac,cell;
 	public String time;
-	public int event;//ĞÅÁîÊı¾İÊÂ¼şÎ»£¬ÔİÊ±²»ÓÃ
+	public int event;//ä¿¡ä»¤æ•°æ®äº‹ä»¶ä½ï¼Œæš‚æ—¶ä¸ç”¨
 	public RawPoint(){
 		
 	}

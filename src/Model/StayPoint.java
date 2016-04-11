@@ -1,11 +1,11 @@
 package Model;
 
-//Í£Áôµã
+//åœç•™ç‚¹
 public class StayPoint{
 	public double lon,lat;
 	public String sTime,eTime;
-	public int event;//ĞÅÁîÊı¾İÊÂ¼şÎ»£¬ÔİÊ±²»ÓÃ
-	public int state;//1£ºÍ£Áôµã£»0£ºÒÆ¶¯µã
+	public int event;//ä¿¡ä»¤æ•°æ®äº‹ä»¶ä½ï¼Œæš‚æ—¶ä¸ç”¨
+	public int state;//1ï¼šåœç•™ç‚¹ï¼›0ï¼šç§»åŠ¨ç‚¹
 	public StayPoint(){
 		
 	}

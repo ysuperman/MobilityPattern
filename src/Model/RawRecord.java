@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-//用户原始记录
+//鐢ㄦ埛鍘熷璁板綍
 public class RawRecord{
 	public String id;
 	public String date;

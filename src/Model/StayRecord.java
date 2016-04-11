@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-//ÓÃ»§Í£Áôµã¼ÇÂ¼
+//ç”¨æˆ·åœç•™ç‚¹è®°å½•
 public class StayRecord{
 	public String id;
 	public String date;
