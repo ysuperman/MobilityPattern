@@ -32,7 +32,7 @@ import Model.StayRecord;
 
 public class getStayPoint {
 	public static String workPath = "F:\\BJmobile\\";
-	public static String date = "20130228";
+	public static String date = "20130226";
 	public static String withPosPathName = workPath+date+"\\1withPos\\";
 	public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
 	public static String timeLinePathName = workPath+date+"\\3timeLine\\";
