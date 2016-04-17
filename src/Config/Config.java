@@ -15,12 +15,13 @@ public class Config {
 	public static final String CONFIG_Date = "date";
 	public static final String CONFIG_WorkPath = "WorkPath";
 	public static final String CONFIG_RawPath = "0raw";
-	public static final String CONFIG_WithPosPath = "1WithPosPath";
-	public static final String CONFIG_TimeSpan = "2TimeSpan";
-	public static final String CONFIG_TimeLine = "3TimeLine";
-	public static final String CONFIG_GoodUser = "4GoodUser";
-	public static final String CONFIG_GoodRecord = "5GoodRecord";
-	public static final String CONFIG_MergeSameLoc = "6MergeSameLoc";
+	public static final String CONFIG_WithPosPath = "1withPosPath";
+	public static final String CONFIG_TimeSpan = "2timeSpan";
+	public static final String CONFIG_TimeLine = "3timeLine";
+	public static final String CONFIG_GoodUser = "4goodUser";
+	public static final String CONFIG_GoodRecord = "5goodRecord";
+	public static final String CONFIG_MergeSameLoc = "6mergeSameLoc";
+	public static final String CONFIG_StayRecord = "7stayRecord";
 	
 	private static final String[] configKeys = {
 		CONFIG_Date,
@@ -34,6 +35,7 @@ public class Config {
 		CONFIG_GoodUser,
 		CONFIG_GoodRecord,
 		CONFIG_MergeSameLoc,
+		CONFIG_StayRecord
 	};
 	private static Map<String, String> configs = new HashMap<String, String>();
 	private static String contextPath = ".";
@@ -84,10 +86,13 @@ public class Config {
     	return Config.loadProgramConfig();
     }
     public static void init() throws Exception{
-    	Config.loadProgramConfig(".\\input");
+    	Config.loadProgramConfig("."+File.separator+"input");
 	}
     
     public static void main(String[] args)throws Exception{
     	init();
+    	for(String key:configs.keySet()){
+    		System.out.println(configs.get(key));
+    	}
     }
 }
