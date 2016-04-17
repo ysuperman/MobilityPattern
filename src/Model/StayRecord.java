@@ -6,9 +6,9 @@ import java.util.List;
 
 //用户停留点记录
 public class StayRecord{
-	public String id;
-	public String date;
-	public List<StayPoint> stayPoints;
+	private String id;
+	private String date;
+	private List<StayPoint> stayPoints;
 	public StayRecord(){
 		
 	}
@@ -16,5 +16,20 @@ public class StayRecord{
 		this.id = id;
 		this.date = date;
 		stayPoints = new LinkedList<StayPoint>();
+	}
+	public void setId(String id){
+		this.id = id;
+	}
+	public String getId(){
+		return this.id;
+	}
+	public void setDate(String date){
+		this.date = date;
+	}
+	public String getDate(){
+		return this.date;
+	}
+	public List<StayPoint> getStayPoints(){
+		return this.stayPoints;
 	}
 }

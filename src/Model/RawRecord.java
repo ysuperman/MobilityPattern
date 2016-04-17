@@ -29,9 +29,6 @@ public class RawRecord{
 	public String getDate(){
 		return this.date;
 	}
-	public void setRawPoints(){
-		rawPoints = new LinkedList<RawPoint>();
-	}
 	public List<RawPoint> getRawPoints(){
 		return rawPoints;
 	}

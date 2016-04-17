@@ -113,11 +113,11 @@ public class getStayPoint {
 					sp.setETime(tempStays.get(0).getTime());
 					sp.setEvent(0);
 					sp.setState(0);
-					stay.stayPoints.add(sp);
+					stay.getStayPoints().add(sp);
 				}else{
 					start+=tempStays.size();
 					StayPoint sp = calStayPoint(tempStays);
-					stay.stayPoints.add(sp);
+					stay.getStayPoints().add(sp);
 				}
 			}//end while start
 			stayRecords.add(stay);
@@ -168,11 +168,11 @@ public class getStayPoint {
 					sp.setETime(tempStays.get(0).getTime());
 					sp.setEvent(0);
 					sp.setState(0);
-					stay.stayPoints.add(sp);
+					stay.getStayPoints().add(sp);
 				}else{
 					start+=tempStays.size();
 					StayPoint sp = calStayPoint(tempStays);
-					stay.stayPoints.add(sp);
+					stay.getStayPoints().add(sp);
 				}
 			}//end while start
 			stayRecords.add(stay);
@@ -239,8 +239,8 @@ public class getStayPoint {
 		BufferedWriter bw = new BufferedWriter(new FileWriter(stayRecordFileName));
 		DecimalFormat df = new DecimalFormat("#.000000");
 		for(StayRecord user:stayRecords){
-			for(StayPoint point:user.stayPoints){
-				bw.write(user.id+","+user.date+","+point.getSTime()+"-"+point.getETime()+","+df.format(point.getLon())+","+df.format(point.getLat())+","+point.getState()+"\n");
+			for(StayPoint point:user.getStayPoints()){
+				bw.write(user.getId()+","+user.getDate()+","+point.getSTime()+"-"+point.getETime()+","+df.format(point.getLon())+","+df.format(point.getLat())+","+point.getState()+"\n");
 			}
 		}
 		bw.close();
@@ -276,7 +276,7 @@ public class getStayPoint {
 	public static void stat(){
 		for(StayRecord user:stayRecords){
 			int count = 0;
-			for(StayPoint point:user.stayPoints){
+			for(StayPoint point:user.getStayPoints()){
 				if(point.getState()==1)
 					count+=1;
 			}
