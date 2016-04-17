@@ -7,6 +7,5 @@ public class RawPoint{
 	public String time;
 	public int event;//信令数据事件位，暂时不用
 	public RawPoint(){
-		
 	}
 }
