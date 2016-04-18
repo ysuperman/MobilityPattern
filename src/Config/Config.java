@@ -15,13 +15,13 @@ public class Config {
 	public static final String CONFIG_Date = "date";
 	public static final String CONFIG_WorkPath = "WorkPath";
 	public static final String CONFIG_RawPath = "0raw";
-	public static final String CONFIG_WithPosPath = "1withPosPath";
-	public static final String CONFIG_TimeSpan = "2timeSpan";
-	public static final String CONFIG_TimeLine = "3timeLine";
-	public static final String CONFIG_GoodUser = "4goodUser";
-	public static final String CONFIG_GoodRecord = "5goodRecord";
-	public static final String CONFIG_MergeSameLoc = "6mergeSameLoc";
-	public static final String CONFIG_StayRecord = "7stayRecord";
+	public static final String CONFIG_FixedPath = "1fixed";
+	public static final String CONFIG_TimeSpanPath = "2timeSpan";
+	public static final String CONFIG_TimeLinePath = "3timeLine";
+	public static final String CONFIG_GoodUserPath = "4goodUser";
+	public static final String CONFIG_GoodRecordPath = "5goodRecord";
+	public static final String CONFIG_MergeSameLocPath = "6mergeSameLoc";
+	public static final String CONFIG_StayRecordPath = "7stayRecord";
 	
 	private static final String[] configKeys = {
 		CONFIG_Date,
@@ -29,13 +29,13 @@ public class Config {
 	};
 	private static final String[] generateKeys = {
 		CONFIG_RawPath,
-		CONFIG_WithPosPath,
-		CONFIG_TimeSpan,
-		CONFIG_TimeLine,
-		CONFIG_GoodUser,
-		CONFIG_GoodRecord,
-		CONFIG_MergeSameLoc,
-		CONFIG_StayRecord
+		CONFIG_FixedPath,
+		CONFIG_TimeSpanPath,
+		CONFIG_TimeLinePath,
+		CONFIG_GoodUserPath,
+		CONFIG_GoodRecordPath,
+		CONFIG_MergeSameLocPath,
+		CONFIG_StayRecordPath
 	};
 	private static Map<String, String> configs = new HashMap<String, String>();
 	private static String contextPath = ".";
