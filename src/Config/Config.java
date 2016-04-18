@@ -13,7 +13,8 @@ import org.jdom2.input.SAXBuilder;
 public class Config {
 	//Attrs
 	public static final String CONFIG_Date = "date";
-	public static final String CONFIG_WorkPath = "WorkPath";
+	public static final String CONFIG_WorkPath = "workPath";
+	public static final String CONFIG_IdLength = "idLength";
 	public static final String CONFIG_RawPath = "0raw";
 	public static final String CONFIG_FixedPath = "1fixed";
 	public static final String CONFIG_TimeSpanPath = "2timeSpan";
@@ -26,6 +27,7 @@ public class Config {
 	private static final String[] configKeys = {
 		CONFIG_Date,
 		CONFIG_WorkPath,
+		CONFIG_IdLength
 	};
 	private static final String[] generateKeys = {
 		CONFIG_RawPath,

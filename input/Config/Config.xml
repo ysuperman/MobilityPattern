@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Program_Config>
 <date>20130227</date>
-<WorkPath>F:\BJmobile</WorkPath>
+<workPath>F:\BJmobile</workPath>
+<idLength>19</idLength>
 </Program_Config>
