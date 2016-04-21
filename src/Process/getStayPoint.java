@@ -32,14 +32,6 @@ import Model.StayRecord;
 
 
 public class getStayPoint {
-	//public static String workPath = "F:\\BJmobile\\";
-	//public static String date = "20130226";
-	//public static String withPosPathName = workPath+date+"\\1withPos\\";
-	//public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
-	//public static String timeLinePathName = workPath+date+"\\3timeLine\\";
-	//public static String goodUserPathName = workPath+date+"\\4goodUser\\";
-	//public static String goodRecordPathName = workPath+date+"\\5goodRecord\\";
-	//public static String stayRecordPathName = workPath+date+"\\7stayRecord\\";
 	public static final int TRD = 1000;//(Threshold of Roaming Distance)空间阈值,单位：米
 	public static final int TRT = 30;//(Threshold of Roaming Time)时间阈值，单位：分钟
 	public static List<RawRecord> rawRecords = new LinkedList<RawRecord>();
