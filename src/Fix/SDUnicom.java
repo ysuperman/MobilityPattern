@@ -20,11 +20,6 @@ import Config.Config;
  * 1fixed:按id后两位划分文件，文件内按id和时间排序
  */
 public class SDUnicom {
-	//public static String basePath = "F:\\basemap\\BJbase_cellidcn.txt";
-	//public static String workPath = "F:\\SDUnicom\\";
-	//public static String date = "20151117";
-	//public static String rawPathName = workPath+date+"\\0raw\\";
-	//public static String fixedPathName = workPath+date+"\\1fixed\\";
 	public static double cityMaxLon;
 	public static double cityMaxLat;
 	public static double cityMinLon;
