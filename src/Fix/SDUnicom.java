@@ -12,10 +12,10 @@ import java.util.Map;
 /*
  * author:youg
  * date:20160418
- * ɽ����ͨ���Ԥ����
- * ��ԭʼ������ݰ�id����λ�ָ��ͬ�ļ��У�����id��ʱ���ֶ�����
- * 0raw:ԭʼ������ݣ���ʱ�仮���ļ�
- * 1fixed:��id����λ�����ļ����ļ��ڰ�id��ʱ������
+ * 山东联通数据预处理
+ * 把原始信令数据按id后两位分割到不同文件中，并按id和时间字段排序
+ * 0raw:原始信令数据，按时间划分文件
+ * 1fixed:按id后两位划分文件，文件内按id和时间排序
  */
 public class SDUnicom {
 	//public static String basePath = "F:\\basemap\\BJbase_cellidcn.txt";
@@ -52,7 +52,7 @@ public class SDUnicom {
 		};
 	public static Map<String,Integer> fileNums = new HashMap<String,Integer>();
 	/*
-	 * ��ȡ��վλ����Ϣ��������map��
+	 * 读取基站位置信息，并存入map中
 	 */
 	/*public static void getBasePos(String basePath)throws Exception{
 		BufferedReader br = new BufferedReader(new FileReader(basePath));
@@ -66,11 +66,11 @@ public class SDUnicom {
 	}
 	*/
 	/*
-	 * ��1withPos�ļ����д�����λβ�������txt�ļ�
+	 * 在1withPos文件夹中创建两位尾数命名的txt文件
 	 */
 	public static void mkDir(String[] fileNames, String fixedPathName)throws Exception{
 		File outputPath = new File(fixedPathName);
-		//������·�����������½����·��
+		//如果输出路径不存在则新建输出路径
 		if(!outputPath.exists())
 			outputPath.mkdirs();
 		for(int i=0;i<fileNames.length;i++)
@@ -87,7 +87,7 @@ public class SDUnicom {
 		}
 	}
 	/*
-	 * �Ѱ�ʱ��ָ�����ת�浽��IDβ��ָ�
+	 * 把按时间分割的数据转存到按ID尾数分割
 	 */
 	public static void splitFile(File inputFile)throws Exception{
 		System.out.println("Now spliting "+inputFile.getAbsolutePath());
@@ -127,7 +127,7 @@ public class SDUnicom {
 			bws[i].close();
 	}
 	/*
-	 * ���ļ��еļ�¼����ID��time������
+	 * 对文件中的记录按（ID，time）排序
 	 */
 	public static void sortByIdTime(File inputFile)throws IOException{
 		System.out.println("Now sorting "+inputFile.getAbsolutePath());
@@ -191,7 +191,7 @@ public class SDUnicom {
 			return false;
 	}
 	/*
-	 * ɾ���ļ����ظ����ֵ�record
+	 * 删除文件中重复出现的record
 	 */
 	public static void deleteRepeat(File inputFile)throws Exception{
 		System.out.println("Now deleting repeat "+inputFile.getAbsolutePath());
@@ -228,22 +228,22 @@ public class SDUnicom {
 	public static void main(String[] args)throws Exception{
 		File inputPath = new File(rawPathName);
 		File[] inputFiles = inputPath.listFiles();
-		//������Ŀ¼
+		//生成输出目录
 		//mkDir(fileNames_36,fixedPathName);
-		//��ȡ��վλ�����
+		//读取基站位置数据
 		//getBasePos(basePath);
-		//�ָ�raw�ļ�
+		//分割raw文件
 		//for(File file:inputFiles){
 		//	splitFile(file);
 		//}
 		
 		File fixedPath = new File(fixedPathName);
 		File[] fixedFiles = fixedPath.listFiles();
-		//��id��timestamp����
+		//按id和timestamp排序
 		for(File file:fixedFiles){
 			sortByIdTime(file);
 		}
-		//ɾ���ظ���¼��
+		//删除重复记录数
 		total=0;
 		useful=0;
 		for(File file:fixedFiles){
