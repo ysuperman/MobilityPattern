@@ -1,6 +1,6 @@
 package Model;
 
-//原始点
+//用户原始点
 public class RawPoint{
 	private double lon,lat;
 	private long lac,cell;

@@ -1,6 +1,6 @@
 package Model;
 
-//停留点
+//用户停留点
 public class StayPoint{
 	private double lon,lat;
 	private String sTime,eTime;

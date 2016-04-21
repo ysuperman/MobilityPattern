@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-//用户停留点记录
+//用户停留点记录序列
 public class StayRecord{
 	private String id;
 	private String date;
