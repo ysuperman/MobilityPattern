@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import Config.Config;
 import Model.RawPoint;
 import Model.RawRecord;
 import Model.StayPoint;
@@ -31,14 +32,14 @@ import Model.StayRecord;
 
 
 public class getStayPoint {
-	public static String workPath = "F:\\BJmobile\\";
-	public static String date = "20130226";
-	public static String withPosPathName = workPath+date+"\\1withPos\\";
-	public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
-	public static String timeLinePathName = workPath+date+"\\3timeLine\\";
-	public static String goodUserPathName = workPath+date+"\\4goodUser\\";
-	public static String goodRecordPathName = workPath+date+"\\5goodRecord\\";
-	public static String stayRecordPathName = workPath+date+"\\7stayRecord\\";
+	//public static String workPath = "F:\\BJmobile\\";
+	//public static String date = "20130226";
+	//public static String withPosPathName = workPath+date+"\\1withPos\\";
+	//public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
+	//public static String timeLinePathName = workPath+date+"\\3timeLine\\";
+	//public static String goodUserPathName = workPath+date+"\\4goodUser\\";
+	//public static String goodRecordPathName = workPath+date+"\\5goodRecord\\";
+	//public static String stayRecordPathName = workPath+date+"\\7stayRecord\\";
 	public static final int TRD = 1000;//(Threshold of Roaming Distance)空间阈值,单位：米
 	public static final int TRT = 30;//(Threshold of Roaming Time)时间阈值，单位：分钟
 	public static List<RawRecord> rawRecords = new LinkedList<RawRecord>();
@@ -234,7 +235,7 @@ public class getStayPoint {
 	}
 	//输出StayRecord用户停留点信息
 	public static void exportStayRecord(String stayRecordFileName)throws Exception{
-		stayRecordFileName = stayRecordPathName + stayRecordFileName;
+		stayRecordFileName = Config.getAttr(Config.StayRecordPath) + stayRecordFileName;
 		System.out.println("Now exporting StayRecord: "+stayRecordFileName);
 		BufferedWriter bw = new BufferedWriter(new FileWriter(stayRecordFileName));
 		DecimalFormat df = new DecimalFormat("#.000000");
@@ -288,14 +289,15 @@ public class getStayPoint {
 	}
 	
 	public static void main(String[] args)throws Exception{
-		File goodRecordPath = new File(goodRecordPathName);
+		Config.init();
+		File goodRecordPath = new File(Config.getAttr(Config.GoodRecordPath));
 		File[] goodRecordFiles = goodRecordPath.listFiles();
 		int j=0;
 		for(File file:goodRecordFiles){
 			importRawRecord(file);
 			calStayRecord();
 			stat();
-			//exportStayRecord(file.getName());
+			exportStayRecord(file.getName());
 			//if(++j>=1)
 			//	break;
 		}
