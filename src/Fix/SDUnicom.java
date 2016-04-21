@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import Config.Config;
 /*
  * author:youg
  * date:20160418
@@ -19,14 +21,14 @@ import java.util.Map;
  */
 public class SDUnicom {
 	//public static String basePath = "F:\\basemap\\BJbase_cellidcn.txt";
-	public static String workPath = "F:\\SDUnicom\\";
-	public static String date = "20151117";
-	public static String rawPathName = workPath+date+"\\0raw\\";
-	public static String fixedPathName = workPath+date+"\\1fixed\\";
-	public static double cityMaxLon = 117.255435;
-	public static double cityMaxLat = 36.851682;
-	public static double cityMinLon = 116.827556;
-	public static double cityMinLat = 36.544621;
+	//public static String workPath = "F:\\SDUnicom\\";
+	//public static String date = "20151117";
+	//public static String rawPathName = workPath+date+"\\0raw\\";
+	//public static String fixedPathName = workPath+date+"\\1fixed\\";
+	public static double cityMaxLon;
+	public static double cityMaxLat;
+	public static double cityMinLon;
+	public static double cityMinLat;
 	
 	//public static Map<String,String> basePos = new HashMap<String,String>();
 	public static BufferedWriter[] bws;
@@ -54,8 +56,8 @@ public class SDUnicom {
 	/*
 	 * 读取基站位置信息，并存入map中
 	 */
-	/*public static void getBasePos(String basePath)throws Exception{
-		BufferedReader br = new BufferedReader(new FileReader(basePath));
+	/*public static void getBasePos(String baseFile)throws Exception{
+		BufferedReader br = new BufferedReader(new FileReader(baseFile));
 		String af;
 		String[] afList;
 		while((af=br.readLine())!=null){
@@ -69,10 +71,10 @@ public class SDUnicom {
 	 * 在1withPos文件夹中创建两位尾数命名的txt文件
 	 */
 	public static void mkDir(String[] fileNames, String fixedPathName)throws Exception{
-		File outputPath = new File(fixedPathName);
+		File fixedPath = new File(fixedPathName);
 		//如果输出路径不存在则新建输出路径
-		if(!outputPath.exists())
-			outputPath.mkdirs();
+		if(!fixedPath.exists())
+			fixedPath.mkdirs();
 		for(int i=0;i<fileNames.length;i++)
 			fileNums.put(fileNames[i], i);
 		for(int i=0;i<fileNames.length;i++){
@@ -89,15 +91,15 @@ public class SDUnicom {
 	/*
 	 * 把按时间分割的数据转存到按ID尾数分割
 	 */
-	public static void splitFile(File inputFile)throws Exception{
-		System.out.println("Now spliting "+inputFile.getAbsolutePath());
-		File outputPath = new File(fixedPathName);
-		File[] outputFiles = outputPath.listFiles();
-		Arrays.sort(outputFiles);
-		bws = new BufferedWriter[outputFiles.length];
-		for(int i=0;i<outputFiles.length;i++)
-			bws[i] = new BufferedWriter(new FileWriter(outputFiles[i],true));
-		br = new BufferedReader(new FileReader(inputFile));
+	public static void splitFile(File rawFile)throws Exception{
+		System.out.println("Now spliting "+rawFile.getAbsolutePath());
+		File fixedPath = new File(Config.getAttr(Config.FixedPath));
+		File[] fixedFiles = fixedPath.listFiles();
+		Arrays.sort(fixedFiles);
+		bws = new BufferedWriter[fixedFiles.length];
+		for(int i=0;i<fixedFiles.length;i++)
+			bws[i] = new BufferedWriter(new FileWriter(fixedFiles[i],true));
+		br = new BufferedReader(new FileReader(rawFile));
 		String af;
 		String[] afList;
 		while((af=br.readLine())!=null){
@@ -129,9 +131,9 @@ public class SDUnicom {
 	/*
 	 * 对文件中的记录按（ID，time）排序
 	 */
-	public static void sortByIdTime(File inputFile)throws IOException{
-		System.out.println("Now sorting "+inputFile.getAbsolutePath());
-		br = new BufferedReader(new FileReader(inputFile));
+	public static void sortByIdTime(File fixedFile)throws IOException{
+		System.out.println("Now sorting "+fixedFile.getAbsolutePath());
+		br = new BufferedReader(new FileReader(fixedFile));
 		int len=0;
 		String af;
 		String[] afList;
@@ -141,7 +143,7 @@ public class SDUnicom {
 		if(len==0)
 			return;
 		afList = new String[len];
-		br = new BufferedReader(new FileReader(inputFile));
+		br = new BufferedReader(new FileReader(fixedFile));
 		int i=0;
 		while((af=br.readLine())!=null)
 			afList[i++]=af;
@@ -150,7 +152,7 @@ public class SDUnicom {
 		qsort(afList,0,len-1);
 		//System.out.println("finish sort");
 		bws = new BufferedWriter[1];
-		bws[0] = new BufferedWriter(new FileWriter(inputFile));
+		bws[0] = new BufferedWriter(new FileWriter(fixedFile));
 		for(String afs:afList)
 			bws[0].write(afs+"\n");
 		bws[0].close();
@@ -193,9 +195,9 @@ public class SDUnicom {
 	/*
 	 * 删除文件中重复出现的record
 	 */
-	public static void deleteRepeat(File inputFile)throws Exception{
-		System.out.println("Now deleting repeat "+inputFile.getAbsolutePath());
-		br = new BufferedReader(new FileReader(inputFile));
+	public static void deleteRepeat(File fixedFile)throws Exception{
+		System.out.println("Now deleting repeat "+fixedFile.getAbsolutePath());
+		br = new BufferedReader(new FileReader(fixedFile));
 		int len=0;
 		String af;
 		String[] afList;
@@ -205,13 +207,13 @@ public class SDUnicom {
 		if(len==0)
 			return;
 		afList = new String[len];
-		br = new BufferedReader(new FileReader(inputFile));
+		br = new BufferedReader(new FileReader(fixedFile));
 		int i=0;
 		while((af=br.readLine())!=null)
 			afList[i++]=af;
 		br.close();
 		bws = new BufferedWriter[1];
-		bws[0] = new BufferedWriter(new FileWriter(inputFile));
+		bws[0] = new BufferedWriter(new FileWriter(fixedFile));
 		total+=1;
 		useful+=1;
 		bws[0].write(afList[0]+"\n");
@@ -226,18 +228,24 @@ public class SDUnicom {
 	}
 	
 	public static void main(String[] args)throws Exception{
-		File inputPath = new File(rawPathName);
-		File[] inputFiles = inputPath.listFiles();
-		//生成输出目录
-		//mkDir(fileNames_36,fixedPathName);
-		//读取基站位置数据
-		//getBasePos(basePath);
-		//分割raw文件
-		//for(File file:inputFiles){
-		//	splitFile(file);
-		//}
+		Config.init();
+		cityMaxLon = Double.valueOf(Config.getAttr(Config.CityMaxLon));
+		cityMinLon = Double.valueOf(Config.getAttr(Config.CityMinLon));
+		cityMaxLat = Double.valueOf(Config.getAttr(Config.CityMaxLat));
+		cityMinLat = Double.valueOf(Config.getAttr(Config.CityMinLat));
 		
-		File fixedPath = new File(fixedPathName);
+		File rawPath = new File(Config.getAttr(Config.RawPath));
+		File[] rawFiles = rawPath.listFiles();
+		//生成输出目录
+		mkDir(fileNames_36,Config.getAttr(Config.FixedPath));
+		//读取基站位置数据
+		//getBasePos(Config.getAttr(Config.BaseFile));
+		//分割raw文件
+		for(File file:rawFiles){
+			splitFile(file);
+		}
+		
+		File fixedPath = new File(Config.getAttr(Config.FixedPath));
 		File[] fixedFiles = fixedPath.listFiles();
 		//按id和timestamp排序
 		for(File file:fixedFiles){

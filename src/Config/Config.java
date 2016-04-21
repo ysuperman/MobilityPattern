@@ -12,32 +12,42 @@ import org.jdom2.input.SAXBuilder;
 
 public class Config {
 	//Attrs
-	public static final String CONFIG_Date = "date";
-	public static final String CONFIG_WorkPath = "workPath";
-	public static final String CONFIG_IdLength = "idLength";
-	public static final String CONFIG_RawPath = "0raw";
-	public static final String CONFIG_FixedPath = "1fixed";
-	public static final String CONFIG_TimeSpanPath = "2timeSpan";
-	public static final String CONFIG_TimeLinePath = "3timeLine";
-	public static final String CONFIG_GoodUserPath = "4goodUser";
-	public static final String CONFIG_GoodRecordPath = "5goodRecord";
-	public static final String CONFIG_MergeSameLocPath = "6mergeSameLoc";
-	public static final String CONFIG_StayRecordPath = "7stayRecord";
+	public static final String Date = "date";//日期
+	public static final String WorkPath = "workPath";//信令数据路径
+	public static final String BaseFile = "baseFile";//基站数据路径
+	public static final String IdLength = "idLength";//ID长度
+	public static final String CityMaxLon = "cityMaxLon";//城市经度最大值
+	public static final String CityMinLon = "cityMinLon";//城市经度最小值
+	public static final String CityMaxLat = "cityMaxLat";//城市纬度最大值
+	public static final String CityMinLat = "cityMinLat";//城市纬度最小值
+	public static final String RawPath = "0raw";
+	public static final String FixedPath = "1fixed";
+	public static final String TimeSpanPath = "2timeSpan";
+	public static final String TimeLinePath = "3timeLine";
+	public static final String GoodUserPath = "4goodUser";
+	public static final String GoodRecordPath = "5goodRecord";
+	public static final String MergeSameLocPath = "6mergeSameLoc";
+	public static final String StayRecordPath = "7stayRecord";
 	
 	private static final String[] configKeys = {
-		CONFIG_Date,
-		CONFIG_WorkPath,
-		CONFIG_IdLength
+		Date,
+		WorkPath,
+		BaseFile,
+		IdLength,
+		CityMaxLon,
+		CityMinLon,
+		CityMaxLat,
+		CityMinLat
 	};
 	private static final String[] generateKeys = {
-		CONFIG_RawPath,
-		CONFIG_FixedPath,
-		CONFIG_TimeSpanPath,
-		CONFIG_TimeLinePath,
-		CONFIG_GoodUserPath,
-		CONFIG_GoodRecordPath,
-		CONFIG_MergeSameLocPath,
-		CONFIG_StayRecordPath
+		RawPath,
+		FixedPath,
+		TimeSpanPath,
+		TimeLinePath,
+		GoodUserPath,
+		GoodRecordPath,
+		MergeSameLocPath,
+		StayRecordPath
 	};
 	private static Map<String, String> configs = new HashMap<String, String>();
 	private static String contextPath = ".";
@@ -78,7 +88,7 @@ public class Config {
         	}
         }
         for(String key:generateKeys){
-        	String value = configs.get(CONFIG_WorkPath)+File.separator+configs.get(CONFIG_Date)+File.separator+key;
+        	String value = configs.get(WorkPath)+File.separator+configs.get(Date)+File.separator+key;
         	configs.put(key, value);
         }
         return ret;
