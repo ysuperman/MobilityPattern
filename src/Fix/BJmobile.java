@@ -100,24 +100,20 @@ public class BJmobile {
 		while((af=br.readLine())!=null){
 			total+=1;
 			afList = af.split(",");
-			if(afList.length<7)
+			if(afList.length<11)
 				continue;
-			if(afList[5].equals("\\N"))
+			int num = Integer.valueOf(afList[2].substring(17)).intValue();
+			int cellid = Integer.valueOf(afList[6]).intValue();
+			String lc = afList[5]+String.format("%05d", cellid);
+			//System.out.println(lc);
+			if(!basePos.containsKey(lc))
 				continue;
-			if(afList[6].equals("\\N"))
-				continue;
-			double lon = Double.valueOf(afList[5]);
-			if(lon<cityMinLon || lon>cityMaxLon)
-				continue;
-			double lat = Double.valueOf(afList[6]);
-			if(lat<cityMinLat || lat>cityMaxLat)
-				continue;
-			int num = fileNums.get(afList[0].substring(17));
 			useful+=1;
-			String date = afList[2].substring(0,8);
-			String time = afList[2].substring(8);
-			afList[2] = date+","+time;
-			bws[num].write(afList[0]+","+afList[2]+","+"0"+","+"0"+","+afList[5]+","+afList[6]+","+afList[1]+"\n");
+			String loc = basePos.get(lc);
+			String date = afList[4].substring(0,8);
+			String time = afList[4].substring(8);
+			afList[4] = date+","+time;
+			bws[num].write(afList[2]+","+afList[4]+","+afList[5]+","+afList[6]+","+loc+","+afList[7]+"\n");
 		}
 		br.close();
 		for(int i=0;i<bws.length;i++)
