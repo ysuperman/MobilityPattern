@@ -228,9 +228,9 @@ public class BJmobile {
 		File rawPath = new File(Config.getAttr(Config.RawPath));
 		File[] rawFiles = rawPath.listFiles();
 		//生成输出目录
-		mkDir(fileNames_100,Config.getAttr(Config.FixedPath));
+		//mkDir(fileNames_100,Config.getAttr(Config.FixedPath));
 		//读取基站位置数据
-		getBasePos(Config.getAttr(Config.BaseFile));
+		//getBasePos(Config.getAttr(Config.BaseFile));
 		//分割raw文件
 		for(File file:rawFiles){
 			splitFile(file);
