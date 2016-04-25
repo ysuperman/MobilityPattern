@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import Config.Config;
+
 /*
  * author:youg
  * date:20160229
@@ -21,12 +23,12 @@ import java.util.Map;
  * 4goodUser:数据质量好、用于下一步分析的用户ID列表。提取规则：7点前、19点后有记录，7-19点每3个小时有记录的用户数所占比例；用户比例：55%
  */
 public class getGoodUser {
-	public static String workPath = "F:\\SDunicom\\";
-	public static String date = "20151117";
-	public static String inputPathName = workPath+date+"\\1fixed\\";
-	public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
-	public static String timeLinePathName = workPath+date+"\\3timeLine\\";
-	public static String goodUserPathName = workPath+date+"\\4goodUser\\";
+	//public static String workPath = "F:\\SDunicom\\";
+	//public static String date = "20151117";
+	//public static String inputPathName = workPath+date+"\\1fixed\\";
+	//public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
+	//public static String timeLinePathName = workPath+date+"\\3timeLine\\";
+	//public static String goodUserPathName = workPath+date+"\\4goodUser\\";
 	
 	public static BufferedReader br;
 	public static BufferedWriter bw;
@@ -139,7 +141,7 @@ public class getGoodUser {
 		for(File file:files){
 			System.out.println("Now creating time span with "+file.getAbsolutePath());
 			String name = file.getName();
-			String outputFileName = timeSpanPathName+name;
+			String outputFileName = Config.getAttr(Config.TimeSpanPath)+name;
 			bw = new BufferedWriter(new FileWriter(outputFileName));
 			br = new BufferedReader(new FileReader(file));
 			String af;
@@ -179,7 +181,7 @@ public class getGoodUser {
 		for(File file:files){
 			System.out.println("Now creating time line with "+file.getAbsolutePath());
 			String name = file.getName();
-			String outputFileName = timeLinePathName+name;
+			String outputFileName = Config.getAttr(Config.TimeLinePath)+name;
 			br = new BufferedReader(new FileReader(file));
 			bw = new BufferedWriter(new FileWriter(outputFileName));
 			String af;
@@ -291,7 +293,7 @@ public class getGoodUser {
 	public static void statTimeLine_3(File[] files)throws Exception{
 		int totalUser=0;
 		int rightUser=0;
-		String goodUserFileName = goodUserPathName+"goodUser.txt";
+		String goodUserFileName = Config.getAttr(Config.GoodUserPath)+"goodUser.txt";
 		bw = new BufferedWriter(new FileWriter(goodUserFileName));
 		for(File file:files){
 			System.out.println("Now stating time line 3 with "+file.getAbsolutePath());
@@ -331,24 +333,25 @@ public class getGoodUser {
 		System.out.println("good User Ratio: "+String.format("%.6f",rightUser*1.0/totalUser));
 	}
 	public static void main(String[] args)throws Exception{
+		Config.init();
 		/*
 		 * ****************************************************
 		 */
-		File inputPath = new File(inputPathName);
-		File[] inputFiles = inputPath.listFiles();
-		//userNumber(inputFiles);
-		//statTime(inputFiles);
-		//statDelay(inputFiles);
+		File fixedPath = new File(Config.getAttr(Config.FixedPath));
+		File[] fixedFiles = fixedPath.listFiles();
+		//userNumber(fixedFiles);
+		//statTime(fixedFiles);
+		//statDelay(fixedFiles);
 		/*
 		 * ****************************************************
 		 */
-		createTimeSpan(inputFiles);
-		createTimeLine(inputFiles);
-		File timeLinePath = new File(timeLinePathName);
+		createTimeSpan(fixedFiles);//生成timeSpan文件
+		createTimeLine(fixedFiles);//生成timeLine文件
+		File timeLinePath = new File(Config.getAttr(Config.TimeLinePath));
 		File[] timeLineFiles = timeLinePath.listFiles();
 		//statTimeLine_1(timeLineFiles);
 		//statTimeLine_2(timeLineFiles);
-		statTimeLine_3(timeLineFiles);
+		statTimeLine_3(timeLineFiles);//生成goodUser文件
 		/*
 		 * ****************************************************
 		 */

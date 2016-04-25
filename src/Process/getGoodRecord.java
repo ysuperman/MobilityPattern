@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.Set;
 
+import Config.Config;
+
 /*
  * author:youg
  * date:20160229
@@ -20,13 +22,13 @@ import java.util.Set;
  * 5goodRecord:4goodUser列表里的用户的完整记录，按id后两位分割到不同文件中
  */
 public class getGoodRecord {
-	public static String workPath = "F:\\SDunicom\\";
-	public static String date = "20151117";
-	public static String withPosPathName = workPath+date+"\\1fixed\\";
-	public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
-	public static String timeLinePathName = workPath+date+"\\3timeLine\\";
-	public static String goodUserPathName = workPath+date+"\\4goodUser\\";
-	public static String goodRecordPathName = workPath+date+"\\5goodRecord\\";
+	//public static String workPath = "F:\\SDunicom\\";
+	//public static String date = "20151117";
+	//public static String withPosPathName = workPath+date+"\\1fixed\\";
+	//public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
+	//public static String timeLinePathName = workPath+date+"\\3timeLine\\";
+	//public static String goodUserPathName = workPath+date+"\\4goodUser\\";
+	//public static String goodRecordPathName = workPath+date+"\\5goodRecord\\";
 	
 	public static BufferedReader br;
 	public static BufferedWriter bw;
@@ -51,7 +53,7 @@ public class getGoodRecord {
 		for(File file:files){
 			System.out.println("Now selecting good record from:"+file.getAbsolutePath());
 			br = new BufferedReader(new FileReader(file));
-			bw = new BufferedWriter(new FileWriter(goodRecordPathName+file.getName()));
+			bw = new BufferedWriter(new FileWriter(Config.getAttr(Config.GoodRecordPath)+file.getName()));
 			while((af=br.readLine())!=null){
 				subAf = af.substring(0,18);
 				if(goodUser.contains(subAf))
@@ -62,9 +64,10 @@ public class getGoodRecord {
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		String goodUserFileName = goodUserPathName+"goodUser.txt";
+		Config.init();
+		String goodUserFileName = Config.getAttr(Config.GoodUserPath)+"goodUser.txt";
 		readGoodUserList(goodUserFileName);
-		File withPosPath = new File(withPosPathName);
+		File withPosPath = new File(Config.getAttr(Config.FixedPath));
 		File[] withPosFiles = withPosPath.listFiles();
 		selectGoodRecord(withPosFiles);
 		System.out.println("finish");
