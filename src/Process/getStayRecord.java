@@ -31,7 +31,7 @@ import Model.StayRecord;
  */
 
 
-public class getStayPoint {
+public class getStayRecord {
 	public static final int TRD = 1000;//(Threshold of Roaming Distance)空间阈值,单位：米
 	public static final int TRT = 30;//(Threshold of Roaming Time)时间阈值，单位：分钟
 	public static List<RawRecord> rawRecords = new LinkedList<RawRecord>();
@@ -297,5 +297,6 @@ public class getStayPoint {
 		
 		for(int i=0;i<11;i++)
 			System.out.println(i+":"+stat[i]);
+		System.out.println("finish");
 	}
 }
