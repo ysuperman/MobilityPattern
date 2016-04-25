@@ -4,6 +4,7 @@ public class PatternPoint {
 	private double lon,lat;
 	private String sTime,eTime;
 	private int type;//模式类型：0：待识别；1:居家；2:工作；3:娱乐休闲；4:无法识别
+	private double prob;//类型为type的概率：0~1
 	public PatternPoint(){
 		
 	}
@@ -36,5 +37,11 @@ public class PatternPoint {
 	}
 	public int getType(int type){
 		return this.type;
+	}
+	public void setProb(double prob){
+		this.prob = prob;
+	}
+	public double getProb(){
+		return this.prob;
 	}
 }
