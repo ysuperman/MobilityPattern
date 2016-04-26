@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import Config.Config;
+
 
 
 /*
@@ -31,16 +33,16 @@ public class AreaStayPointAnalysis {
 	public static double latMax = 36.616883;//天通苑40.079664;
 	public static double lonMin = 117.021422;//天通苑116.406162;
 	public static double lonMax = 117.033403;//天通苑116.442177;
-	public static String basePath = "F:\\basemap\\BJbase_cellidcn.txt";
-	public static String workPath = "F:\\SDunicom\\";
-	public static String date = "20151117";
-	public static String inputPathName = workPath+date+"\\1fixed\\";
-	public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
-	public static String timeLinePathName = workPath+date+"\\3timeLine\\";
-	public static String goodUserPathName = workPath+date+"\\4goodUser\\";
-	public static String goodRecordPathName = workPath+date+"\\5goodRecord\\";
-	public static String mergeSameLocPathName = workPath+date+"\\6mergeSameLoc\\";
-	public static String stayRecordPathName = workPath+date+"\\7stayRecord\\";
+	//public static String basePath = "F:\\basemap\\BJbase_cellidcn.txt";
+	//public static String workPath = "F:\\SDunicom\\";
+	//public static String date = "20151117";
+	//public static String inputPathName = workPath+date+"\\1fixed\\";
+	//public static String timeSpanPathName = workPath+date+"\\2timeSpan\\";
+	//public static String timeLinePathName = workPath+date+"\\3timeLine\\";
+	//public static String goodUserPathName = workPath+date+"\\4goodUser\\";
+	//public static String goodRecordPathName = workPath+date+"\\5goodRecord\\";
+	//public static String mergeSameLocPathName = workPath+date+"\\6mergeSameLoc\\";
+	//public static String stayRecordPathName = workPath+date+"\\7stayRecord\\";
 	public static String areaStayPointAnalysis = "F:\\sample\\AreaStayPointJuzhudiSD1\\";
 	
 	public static BufferedReader br;
@@ -129,7 +131,8 @@ public class AreaStayPointAnalysis {
 	}
 	
 	public static void main(String[] args)throws Exception{
-		File stayRecordPath = new File(stayRecordPathName);
+		Config.init();
+		File stayRecordPath = new File(Config.getAttr(Config.StayRecordPath));
 		File[] stayRecordFiles = stayRecordPath.listFiles();
 		int i=0;
 		for(File file:stayRecordFiles){
