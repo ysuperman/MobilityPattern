@@ -56,16 +56,14 @@ public class ClusterAnalysis {
    
     private double getDistance(DataPoint dp1,DataPoint dp2){
         double distance=0.0;
-        double[] dim1=dp1.getDimensioin();
-        double[] dim2=dp2.getDimensioin();
-        if(dim1.length==dim2.length){
-            for(int i=0;i<dim1.length;i++){
-                double temp=Math.pow((dim1[i]-dim2[i]), 2);
-                distance=distance+temp;
-            }
-            distance=Math.pow(distance, 0.5);
-            return distance;
-        }
+        //double[] dim1=dp1.getDimensioin();
+        //double[] dim2=dp2.getDimensioin();
+        double lon1 = dp1.getLon();
+        double lat1 = dp1.getLat();
+        double lon2 = dp2.getLon();
+        double lat2 = dp2.getLat();
+        distance = Math.pow(lon1-lon2, 2) + Math.pow(lat1-lat2, 2);
+        distance = Math.pow(distance, 0.5);
         return distance;
     }
 
@@ -121,7 +119,7 @@ public class ClusterAnalysis {
        if(flag){
            for(DataPoint dp:dps2){
               if(!isContain(dp,dps1)){
-                  DataPoint tempDp=new DataPoint(dp.getDimensioin(),dp.getDataPointName(),dp.isKey());
+                  DataPoint tempDp=new DataPoint(dp);
                   dps1.add(tempDp);
               }
            }
@@ -133,7 +131,7 @@ public class ClusterAnalysis {
 
    public static void main(String[] args){
        ArrayList<DataPoint> dpoints = new ArrayList<DataPoint>();
-      
+      /*
        double[] a={2,3};
        double[] b={2,4};
        double[] c={1,4};
@@ -176,7 +174,7 @@ public class ClusterAnalysis {
        dpoints.add(new DataPoint(o,"o",false));
        dpoints.add(new DataPoint(p,"p",false));
        dpoints.add(new DataPoint(q,"q",false));
-
+		*/
        ClusterAnalysis ca=new ClusterAnalysis();
        List<Cluster> clusterList=ca.doDbscanAnalysis(dpoints, 2, 4);
        ca.displayCluster(clusterList);
