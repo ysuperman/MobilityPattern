@@ -41,7 +41,7 @@ public class AreaStayPointAnalysis {
 	public static Set<String> userSet = new HashSet<String>();
 	public static HashMap<String,Integer> numMap = new HashMap<String,Integer>();
 	public static long[] stat = new long[11];//统计用户停留点分布
-		
+	
 	/*
 	 * 提取指定区域内停留的用户
 	 */
