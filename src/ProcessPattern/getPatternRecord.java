@@ -1,6 +1,17 @@
 package ProcessPattern;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import Config.Config;
+import DBSCAN.Cluster;
+import DBSCAN.ClusterAnalysis;
+import DBSCAN.DataPoint;
 /*
  * author:youg
  * date:20160504
@@ -15,8 +26,47 @@ import Config.Config;
  * 8patternRecord:从连续多天的7stayRecord中提取出的每个用户的停留模式
  */
 public class getPatternRecord {
+	public static Map<String,List<DataPoint>> map;//存储（id,多日停留点序列）对
+	public static BufferedReader br;
+	public static BufferedWriter bw;
+	//载入停留点数据
+	public static void importStayRecord(File goodRecordFile)throws Exception{
+		
+	}
 	public static void main(String[] args)throws Exception{
 		Config.init();
-		
+		File workPath = new File(Config.getAttr(Config.WorkPath));
+		File[] workPathPerday = workPath.listFiles();
+		File[] stayRecordPathPerday = new File[workPathPerday.length];
+		for(int i=0;i<workPathPerday.length;i++){
+			stayRecordPathPerday[i] = new File(workPathPerday[i].getAbsolutePath()+File.separator+Config.StayRecordPath);
+			//System.out.println(stayRecordPathPerday[i].getAbsolutePath());
+		}
+		if(stayRecordPathPerday.length<=0){
+			System.out.println("no input files,please check the path config.");
+			System.out.println("finish");
+			return;
+		}
+		File[] stayRecordFiles = stayRecordPathPerday[0].listFiles();
+		//一个处理周期，包括stayRecord文件夹下的一个文件的连续多天
+		for(File stayRecordFile:stayRecordFiles){
+			File[] stayRecordFilePerday = new File[stayRecordPathPerday.length];
+			for(int i=0;i<stayRecordPathPerday.length;i++){
+				stayRecordFilePerday[i] = new File(stayRecordPathPerday[i]+File.separator+stayRecordFile.getName());
+				//System.out.println(stayRecordFilePerday[i].getAbsolutePath());
+			}
+			map = new HashMap<String,List<DataPoint>>();
+			for(File file:stayRecordFilePerday){
+				br = new BufferedReader(new FileReader(file));
+				importStayRecord(file);
+				br.close();
+			}
+			for(String id:map.keySet()){
+				ClusterAnalysis ca=new ClusterAnalysis();
+				List<Cluster> clusterList=ca.doDbscanAnalysis(map.get(id), 2, 4);
+				//todo
+			}//endfor
+			//break;
+		}//endfor
 	}
 }

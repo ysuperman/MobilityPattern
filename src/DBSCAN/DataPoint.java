@@ -9,7 +9,6 @@ public class DataPoint {
     private String sTime,eTime;
     private double lon,lat;
     private boolean isKey; //是否是核心对象
-    //private double dimensioin[]; // 样本点的维度
 
     public DataPoint(){
 
@@ -34,13 +33,6 @@ public class DataPoint {
     	this.lat = dp.lat;
     	this.isKey = dp.isKey;
     }
-    /*
-    public DataPoint(double[] dimensioin,String dataPointName,boolean isKey){
-         this.dataPointName=dataPointName;
-         this.dimensioin=dimensioin;
-         this.isKey=isKey;
-    }
-    */
     public String getDataPointName() {
         return dataPointName;
     }
@@ -83,14 +75,6 @@ public class DataPoint {
     public void setETime(String eTime){
     	this.eTime = eTime;
     }
-    /*
-    public double[] getDimensioin() {
-        return dimensioin;
-    }
-    public void setDimensioin(double[] dimensioin) {
-        this.dimensioin = dimensioin;
-    }
-    */
     public boolean isKey(){
     	return isKey;
     }

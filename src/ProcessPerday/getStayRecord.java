@@ -38,10 +38,10 @@ public class getStayRecord {
 	public static List<StayRecord> stayRecords = new LinkedList<StayRecord>();
 	public static long[] stat = new long[11];//统计用户停留点分布
 	//读入RawRecord用户原始记录信息
-	public static void importRawRecord(File goodRecordFileName)throws Exception{
-		System.out.println("Now importing RawRecord: "+goodRecordFileName.getAbsolutePath());
+	public static void importRawRecord(File goodRecordFile)throws Exception{
+		System.out.println("Now importing RawRecord: "+goodRecordFile.getAbsolutePath());
 		rawRecords.clear();
-		BufferedReader br = new BufferedReader(new FileReader(goodRecordFileName));
+		BufferedReader br = new BufferedReader(new FileReader(goodRecordFile));
 		String lastId=null,thisId=null;
 		String af;
 		String[] afs;
