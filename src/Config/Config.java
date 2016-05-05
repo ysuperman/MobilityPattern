@@ -14,12 +14,14 @@ public class Config {
 	//Attrs
 	public static final String Date = "date";//日期
 	public static final String WorkPath = "workPath";//信令数据路径
+	public static final String PatternPath = "patternPath";//模式路径
 	public static final String BaseFile = "baseFile";//基站数据路径
 	public static final String IdLength = "idLength";//ID长度
 	public static final String CityMaxLon = "cityMaxLon";//城市经度最大值
 	public static final String CityMinLon = "cityMinLon";//城市经度最小值
 	public static final String CityMaxLat = "cityMaxLat";//城市纬度最大值
 	public static final String CityMinLat = "cityMinLat";//城市纬度最小值
+	//WorkPath子目录
 	public static final String RawPath = "0raw";
 	public static final String FixedPath = "1fixed";
 	public static final String TimeSpanPath = "2timeSpan";
@@ -28,10 +30,13 @@ public class Config {
 	public static final String GoodRecordPath = "5goodRecord";
 	public static final String MergeSameLocPath = "6mergeSameLoc";
 	public static final String StayRecordPath = "7stayRecord";
+	//PatternPath子目录
+	public static final String PatternRecordPath = "0patternRecord";
 	
 	private static final String[] configKeys = {
 		Date,
 		WorkPath,
+		PatternPath,
 		BaseFile,
 		IdLength,
 		CityMaxLon,
@@ -39,7 +44,7 @@ public class Config {
 		CityMaxLat,
 		CityMinLat
 	};
-	private static final String[] generateKeys = {
+	private static final String[] WorkPathGenerateKeys = {
 		RawPath,
 		FixedPath,
 		TimeSpanPath,
@@ -48,6 +53,9 @@ public class Config {
 		GoodRecordPath,
 		MergeSameLocPath,
 		StayRecordPath
+	};
+	private static final String[] PatternPathGenerateKeys = {
+		PatternRecordPath
 	};
 	private static Map<String, String> configs = new HashMap<String, String>();
 	private static String contextPath = ".";
@@ -87,8 +95,12 @@ public class Config {
             	configs.put(key, root.getChildText(key));
         	}
         }
-        for(String key:generateKeys){
+        for(String key:WorkPathGenerateKeys){
         	String value = configs.get(WorkPath)+File.separator+configs.get(Date)+File.separator+key;
+        	configs.put(key, value);
+        }
+        for(String key:PatternPathGenerateKeys){
+        	String value = configs.get(PatternPath)+File.separator+configs.get(Date)+File.separator+key;
         	configs.put(key, value);
         }
         return ret;
