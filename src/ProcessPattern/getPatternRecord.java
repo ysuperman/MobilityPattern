@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import Config.Config;
 import DBSCAN.Cluster;
 import DBSCAN.ClusterAnalysis;
 import DBSCAN.DataPoint;
+import Model.PatternRecord;
 /*
  * author:youg
  * date:20160504
@@ -27,10 +29,19 @@ import DBSCAN.DataPoint;
  */
 public class getPatternRecord {
 	public static Map<String,List<DataPoint>> map;//存储（id,多日停留点序列）对
+	public static List<PatternRecord> patternRecords;//
 	public static BufferedReader br;
 	public static BufferedWriter bw;
 	//载入停留点数据
 	public static void importStayRecord(File goodRecordFile)throws Exception{
+		
+	}
+	//对集合内元素进行分析
+	public static PatternRecord generatePattern(List<Cluster> clusterList){
+		return null;
+	}
+	//输出停留模式
+	public static void exportPatternRecord(File goodRecordFile)throws Exception{
 		
 	}
 	public static void main(String[] args)throws Exception{
@@ -56,16 +67,20 @@ public class getPatternRecord {
 				//System.out.println(stayRecordFilePerday[i].getAbsolutePath());
 			}
 			map = new HashMap<String,List<DataPoint>>();
+			patternRecords = new LinkedList<PatternRecord>();
 			for(File file:stayRecordFilePerday){
 				br = new BufferedReader(new FileReader(file));
 				importStayRecord(file);
 				br.close();
 			}
 			for(String id:map.keySet()){
-				ClusterAnalysis ca=new ClusterAnalysis();
-				List<Cluster> clusterList=ca.doDbscanAnalysis(map.get(id), 2, 4);
+				ClusterAnalysis ca = new ClusterAnalysis();
+				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 2, 4);
+				PatternRecord patternRecord = generatePattern(clusterList);
+				patternRecords.add(patternRecord);
 				//todo
 			}//endfor
+			exportPatternRecord(stayRecordFile);
 			//break;
 		}//endfor
 	}
