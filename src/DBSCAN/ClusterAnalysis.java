@@ -62,11 +62,22 @@ public class ClusterAnalysis {
         double lat1 = dp1.getLat();
         double lon2 = dp2.getLon();
         double lat2 = dp2.getLat();
-        distance = Math.pow(lon1-lon2, 2) + Math.pow(lat1-lat2, 2);
-        distance = Math.pow(distance, 0.5);
+        distance = distanceInGlobal(lon1,lat1,lon2,lat2);
         return distance;
     }
+    /*
+	 * 计算两位置之间的距离，根据球面坐标长度公式计算(单位：米)
+	 * 注意，这个计算很耗时间,另外,这个计算把经纬度的100万倍还原了!
+	 */
+    public static double distanceInGlobal(double lon1, double lat1, double lon2, double lat2){
+		double x1 = lon1;
+		double y1 = lat1;
+		double x2 = lon2;
+		double y2 = lat2;
 
+		double L = (3.1415926*6370/180)*Math.sqrt((Math.abs((x1)-(x2)))*(Math.abs((x1)-(x2)))*(Math.sin((90-(y1))*(3.1415926/180)))*(Math.sin((90-(y1))*(3.1415926/180)))+(Math.abs((y1)-(y2)))*(Math.abs((y1)-(y2))));
+		return L * 1000;
+	}
    
    private List<DataPoint> isKeyAndReturnObjects(DataPoint dataPoint,List<DataPoint> dataPoints,double radius,int ObjectNum){
        List<DataPoint> arrivableObjects=new ArrayList<DataPoint>(); //用来存储所有直接密度可达对象

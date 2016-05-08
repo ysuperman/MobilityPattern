@@ -14,6 +14,7 @@ import DBSCAN.Cluster;
 import DBSCAN.ClusterAnalysis;
 import DBSCAN.DataPoint;
 import Model.PatternRecord;
+import Model.StayPoint;
 /*
  * author:youg
  * date:20160504
@@ -34,10 +35,32 @@ public class getPatternRecord {
 	public static BufferedWriter bw;
 	//载入停留点数据
 	public static void importStayRecord(File goodRecordFile)throws Exception{
-		
+		System.out.println("Now importing "+goodRecordFile.getAbsolutePath());
+		br = new BufferedReader(new FileReader(goodRecordFile));
+		String af;
+		String[] afs;
+		while((af=br.readLine())!=null){
+			if(af.charAt(af.length()-1)=='0')
+				continue;
+			afs = af.split(",");
+			if(!map.containsKey(afs[0]))
+				map.put(afs[0], new LinkedList<DataPoint>());
+			String[] times = afs[2].split("-");
+			StayPoint sp = new StayPoint(Double.valueOf(afs[3]),Double.valueOf(afs[4]),times[0],times[1],0,Integer.valueOf(afs[5]),0);
+			DataPoint dp = new DataPoint(String.valueOf(map.get(afs[0]).size()),afs[0],afs[1],sp,false);
+			map.get(afs[0]).add(dp);
+		}
+		br.close();
 	}
-	//对集合内元素进行分析
-	public static PatternRecord generatePattern(List<Cluster> clusterList){
+	/*
+	 * 对集合内元素进行分析
+	 * 该函数实现聚类主要策略
+	 */
+	public static PatternRecord generatePattern(String id,List<Cluster> clusterList){
+		PatternRecord pr = new PatternRecord(id);
+		for(Cluster cls:clusterList){
+			
+		}
 		return null;
 	}
 	//输出停留模式
@@ -69,14 +92,12 @@ public class getPatternRecord {
 			map = new HashMap<String,List<DataPoint>>();
 			patternRecords = new LinkedList<PatternRecord>();
 			for(File file:stayRecordFilePerday){
-				br = new BufferedReader(new FileReader(file));
 				importStayRecord(file);
-				br.close();
 			}
 			for(String id:map.keySet()){
 				ClusterAnalysis ca = new ClusterAnalysis();
-				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 2, 4);
-				PatternRecord patternRecord = generatePattern(clusterList);
+				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 1000, 1);
+				PatternRecord patternRecord = generatePattern(id,clusterList);
 				patternRecords.add(patternRecord);
 				//todo
 			}//endfor

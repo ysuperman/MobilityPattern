@@ -10,6 +10,15 @@ public class StayPoint{
 	public StayPoint(){
 		
 	}
+	public StayPoint(double lon,double lat,String sTime,String eTime,int event,int state,int type){
+		this.lon = lon;
+		this.lat = lat;
+		this.sTime = sTime;
+		this.eTime = eTime;
+		this.event = event;
+		this.state = state;
+		this.type = type;
+	}
 	public void setLon(double lon){
 		this.lon = lon;
 	}
