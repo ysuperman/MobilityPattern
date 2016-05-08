@@ -58,9 +58,10 @@ public class getPatternRecord {
 	 */
 	public static PatternRecord generatePattern(String id,List<Cluster> clusterList){
 		PatternRecord pr = new PatternRecord(id);
+		//对每一个类簇进行处理
 		for(Cluster cls:clusterList){
 			
-		}
+		}//endfor
 		return null;
 	}
 	//输出停留模式
