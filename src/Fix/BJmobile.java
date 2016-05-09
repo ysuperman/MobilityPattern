@@ -73,7 +73,7 @@ public class BJmobile {
 		for(int i=0;i<fileNames.length;i++)
 			fileNums.put(fileNames[i], i);
 		for(int i=0;i<fileNames.length;i++){
-			String fixedFileName = fixedPathName+fileNames[i]+".txt";
+			String fixedFileName = fixedPathName+File.separator+fileNames[i]+".txt";
 			File fixedFile = new File(fixedFileName);
 			if(!fixedFile.exists())
 				fixedFile.createNewFile();
@@ -113,6 +113,7 @@ public class BJmobile {
 			String date = afList[4].substring(0,8);
 			String time = afList[4].substring(8);
 			afList[4] = date+","+time;
+			//System.out.println(af);
 			bws[num].write(afList[2]+","+afList[4]+","+afList[5]+","+afList[6]+","+loc+","+afList[7]+"\n");
 		}
 		br.close();
