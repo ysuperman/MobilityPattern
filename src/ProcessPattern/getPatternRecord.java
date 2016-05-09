@@ -100,7 +100,6 @@ public class getPatternRecord {
 				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 1000, 1);
 				PatternRecord patternRecord = generatePattern(id,clusterList);
 				patternRecords.add(patternRecord);
-				//todo
 			}//endfor
 			exportPatternRecord(stayRecordFile);
 			//break;
