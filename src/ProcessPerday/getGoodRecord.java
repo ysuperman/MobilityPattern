@@ -37,7 +37,7 @@ public class getGoodRecord {
 	 * 读入好用户ID，存入goodUser
 	 */
 	public static void readGoodUserList(String goodUserFileName)throws Exception{
-		System.out.println("Now readGoodUserList");
+		System.out.println("Now readGoodUserList from "+goodUserFileName);
 		br = new BufferedReader(new FileReader(goodUserFileName));
 		String af;
 		while((af=br.readLine())!=null)
@@ -50,12 +50,13 @@ public class getGoodRecord {
 	public static void selectGoodRecord(File[] files)throws Exception{
 		String af;
 		String subAf;
+		int idLength = Integer.valueOf(Config.getAttr(Config.IdLength));
 		for(File file:files){
 			System.out.println("Now selecting good record from:"+file.getAbsolutePath());
 			br = new BufferedReader(new FileReader(file));
 			bw = new BufferedWriter(new FileWriter(Config.getAttr(Config.GoodRecordPath)+File.separator+file.getName()));
-			while((af=br.readLine())!=null){
-				subAf = af.substring(0,18);
+			while((af=br.readLine())!=null){ 
+				subAf = af.substring(0,idLength);
 				if(goodUser.contains(subAf))
 					bw.write(af+"\n");
 			}
@@ -65,7 +66,7 @@ public class getGoodRecord {
 	}
 	public static void main(String[] args)throws Exception{
 		Config.init();
-		String goodUserFileName = Config.getAttr(Config.GoodUserPath)+"goodUser.txt";
+		String goodUserFileName = Config.getAttr(Config.GoodUserPath)+File.separator+"goodUser.txt";
 		readGoodUserList(goodUserFileName);
 		File withPosPath = new File(Config.getAttr(Config.FixedPath));
 		File[] withPosFiles = withPosPath.listFiles();
