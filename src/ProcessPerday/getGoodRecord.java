@@ -53,7 +53,7 @@ public class getGoodRecord {
 		for(File file:files){
 			System.out.println("Now selecting good record from:"+file.getAbsolutePath());
 			br = new BufferedReader(new FileReader(file));
-			bw = new BufferedWriter(new FileWriter(Config.getAttr(Config.GoodRecordPath)+file.getName()));
+			bw = new BufferedWriter(new FileWriter(Config.getAttr(Config.GoodRecordPath)+File.separator+file.getName()));
 			while((af=br.readLine())!=null){
 				subAf = af.substring(0,18);
 				if(goodUser.contains(subAf))

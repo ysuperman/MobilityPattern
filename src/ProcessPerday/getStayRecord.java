@@ -227,7 +227,7 @@ public class getStayRecord {
 	}
 	//输出StayRecord用户停留点信息
 	public static void exportStayRecord(String stayRecordFileName)throws Exception{
-		stayRecordFileName = Config.getAttr(Config.StayRecordPath) + stayRecordFileName;
+		stayRecordFileName = Config.getAttr(Config.StayRecordPath)+File.separator + stayRecordFileName;
 		System.out.println("Now exporting StayRecord: "+stayRecordFileName);
 		BufferedWriter bw = new BufferedWriter(new FileWriter(stayRecordFileName));
 		DecimalFormat df = new DecimalFormat("#.000000");

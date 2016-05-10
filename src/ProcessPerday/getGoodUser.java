@@ -141,7 +141,7 @@ public class getGoodUser {
 		for(File file:files){
 			System.out.println("Now creating time span with "+file.getAbsolutePath());
 			String name = file.getName();
-			String outputFileName = Config.getAttr(Config.TimeSpanPath)+name;
+			String outputFileName = Config.getAttr(Config.TimeSpanPath)+File.separator+name;
 			bw = new BufferedWriter(new FileWriter(outputFileName));
 			br = new BufferedReader(new FileReader(file));
 			String af;
@@ -181,7 +181,7 @@ public class getGoodUser {
 		for(File file:files){
 			System.out.println("Now creating time line with "+file.getAbsolutePath());
 			String name = file.getName();
-			String outputFileName = Config.getAttr(Config.TimeLinePath)+name;
+			String outputFileName = Config.getAttr(Config.TimeLinePath)+File.separator+name;
 			br = new BufferedReader(new FileReader(file));
 			bw = new BufferedWriter(new FileWriter(outputFileName));
 			String af;
@@ -293,7 +293,7 @@ public class getGoodUser {
 	public static void statTimeLine_3(File[] files)throws Exception{
 		int totalUser=0;
 		int rightUser=0;
-		String goodUserFileName = Config.getAttr(Config.GoodUserPath)+"goodUser.txt";
+		String goodUserFileName = Config.getAttr(Config.GoodUserPath)+File.separator+"goodUser.txt";
 		bw = new BufferedWriter(new FileWriter(goodUserFileName));
 		for(File file:files){
 			System.out.println("Now stating time line 3 with "+file.getAbsolutePath());
