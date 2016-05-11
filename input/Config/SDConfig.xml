@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Program_Config>
+<date>20130225</date>
+<workPath>F:\SDmobile</workPath>
+<patternPath>F:\SDmobilePattern</patternPath>
+<baseFile>F:\basemap\BJbase_cellidcn.txt</baseFile>
+<idLength>18</idLength>
+<cityMaxLon>117.255435</cityMaxLon>
+<cityMinLon>116.827556</cityMinLon>
+<cityMaxLat>36.851682</cityMaxLat>
+<cityMinLat>36.544621</cityMinLat>
+</Program_Config>

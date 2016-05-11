@@ -30,6 +30,8 @@ import Model.StayPoint;
  * patternRecord:从连续多天的7stayRecord中提取出的每个用户的停留模式
  */
 public class getPatternRecord {
+	public static int total=0;
+	public static int single=0;
 	public static Map<String,List<DataPoint>> map;//存储（id,多日停留点序列）对
 	public static List<PatternRecord> patternRecords;//
 	public static BufferedReader br;
@@ -76,12 +78,14 @@ public class getPatternRecord {
 			}
 			*/
 			//聚类集合只有一个点的情况
+			total+=1;
 			if(dps.size()==1){
 				DataPoint dp = dps.get(0);
 				PatternPoint pp = new PatternPoint(dp.getLon(),dp.getLat(),0,1,0.0);
 				pp.getSTimes().add(dp.getSTime());
 				pp.getETimes().add(dp.getETime());
 				pr.getDynamicPoints().add(pp);
+				single+=1;
 				continue;
 			}
 			//聚类集合有多个点的情况
@@ -151,10 +155,17 @@ public class getPatternRecord {
 			else
 				normalPPL[5]+=1;
 		}
-		for(int i=0;i<=5;i++)
-			System.out.println(i+":"+normalPPL[i]);
-		//for(PatternRecord pr:patternRecords)
-			//System.out.println(pr.toString());
+		//for(int i=0;i<=5;i++)
+		//	System.out.println(i+":"+normalPPL[i]);
+		for(PatternRecord pr:patternRecords)
+			System.out.println(pr.toString());
+	}
+	public static void print(String id,List<Cluster> clusterList){
+		for(Cluster c:clusterList){
+			for(DataPoint dp:c.getDataPoints()){
+				System.out.println(id+","+c.getClusterName()+","+dp.getLon()+","+dp.getLat()+","+dp.getSTime()+","+dp.getETime());
+			}
+		}
 	}
 	public static void main(String[] args)throws Exception{
 		Config.init();
@@ -188,11 +199,15 @@ public class getPatternRecord {
 			for(String id:map.keySet()){
 				ClusterAnalysis ca = new ClusterAnalysis();
 				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 500, 1);
+				print(id,clusterList);
+				if(true)
+					continue;
 				PatternRecord patternRecord = generatePatternRecord(id,clusterList);
 				identifyPatternRecord(patternRecord);
 				patternRecords.add(patternRecord);
 			}//endfor
 			exportPatternRecord(stayRecordFile);
+			//System.out.println("total="+total+";single="+single+"\n");
 			break;
 		}//endfor
 	}
