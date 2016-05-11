@@ -58,4 +58,14 @@ public class PatternPoint {
 	public double getProb(){
 		return this.prob;
 	}
+	@Override
+	public String toString(){
+		String ans="lon="+String.valueOf(lon)+";lat="+String.valueOf(lat);
+		ans=ans+";type="+String.valueOf(type)+";num="+String.valueOf(num);
+		ans=ans+";prob="+String.valueOf(prob)+"\n";
+		for(int i=0;i<sTimes.size();i++){
+			ans+="("+sTimes.get(i)+","+eTimes.get(i)+")";
+		}
+		return ans;
+	}
 }

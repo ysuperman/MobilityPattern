@@ -28,4 +28,17 @@ public class PatternRecord {
 	public List<PatternPoint> getDynamicPoints(){
 		return this.dynamicPoints;
 	}
+	@Override
+	public String toString(){
+		String ans=id+"\n";
+		ans+="normalPoints:\n";
+		for(PatternPoint np:normalPoints){
+			ans+=np.toString()+"\n";
+		}
+		ans+="dynamicPoints:\n";
+		for(PatternPoint dp:dynamicPoints){
+			ans+=dp.toString()+"\n";
+		}
+		return ans;
+	}
 }

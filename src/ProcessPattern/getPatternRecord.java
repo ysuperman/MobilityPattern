@@ -60,8 +60,10 @@ public class getPatternRecord {
 	 */
 	public static PatternRecord generatePatternRecord(String id,List<Cluster> clusterList){
 		PatternRecord pr = new PatternRecord(id);
+		/*
 		System.out.println("************************************");
 		System.out.println(id);
+		*/
 		//对每一个类簇进行处理
 		for(Cluster cls:clusterList){
 			List<DataPoint> dps = cls.getDataPoints();
@@ -107,7 +109,7 @@ public class getPatternRecord {
 					timeBool[i]=true;
 			}
 			int i=0;
-			while(!timeBool[i] && i<timeBool.length)
+			while(i<timeBool.length && !timeBool[i])
 				i+=1;
 			if(i==timeBool.length)
 				continue;
@@ -115,11 +117,11 @@ public class getPatternRecord {
 				if(i==0 || timeBool[i-1]!=timeBool[i]){
 					if(timeBool[i]){
 						//起点时间
-						String st = String.valueOf(i*5/60)+String.valueOf(i*5%60);
+						String st = String.format("%02d",i*5/60)+String.format("%02d",i*5%60)+"00";
 						pp.getSTimes().add(st);
 					}else{
 						//终点时间
-						String et = String.valueOf(i*5/60)+String.valueOf(i*5%60);
+						String et = String.format("%02d",i*5/60)+String.format("%02d",i*5%60)+"00";
 						pp.getETimes().add(et);
 					}
 				}
@@ -127,20 +129,32 @@ public class getPatternRecord {
 			}
 			//最后一个点是true的情况，需要增加一个终点时间
 			if(timeBool[i-1]){
-				String et = String.valueOf(i*5/60)+String.valueOf(i*5%60);
+				String et = String.format("%02d",i*5/60)+String.format("%02d",i*5%60)+"00";
 				pp.getETimes().add(et);
 			}
 			pr.getNormalPoints().add(pp);
 		}//endfor
-		return null;
+		return pr;
 	}
 	//识别停留点属性
 	public static void identifyPatternRecord(PatternRecord patternRecord){
 		
 	}
 	//输出停留模式
-	public static void exportPatternRecord(File goodRecordFile)throws Exception{
-		
+	public static void exportPatternRecord(File stayRecordFile)throws Exception{
+		System.out.println("Now exporting "+stayRecordFile.getAbsolutePath());
+		int[] normalPPL = new int[6];
+		for(PatternRecord pr:patternRecords){
+			int n = pr.getNormalPoints().size();
+			if(n<5)
+				normalPPL[n]+=1;
+			else
+				normalPPL[5]+=1;
+		}
+		for(int i=0;i<=5;i++)
+			System.out.println(i+":"+normalPPL[i]);
+		//for(PatternRecord pr:patternRecords)
+			//System.out.println(pr.toString());
 	}
 	public static void main(String[] args)throws Exception{
 		Config.init();
@@ -170,15 +184,16 @@ public class getPatternRecord {
 			for(File file:stayRecordFilePerday){
 				importStayRecord(file);
 			}
+			System.out.println("Now generatePatternRecord "+stayRecordFile.getName());
 			for(String id:map.keySet()){
 				ClusterAnalysis ca = new ClusterAnalysis();
-				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 1000, 1);
+				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 500, 1);
 				PatternRecord patternRecord = generatePatternRecord(id,clusterList);
 				identifyPatternRecord(patternRecord);
 				patternRecords.add(patternRecord);
 			}//endfor
 			exportPatternRecord(stayRecordFile);
-			//break;
+			break;
 		}//endfor
 	}
 }
