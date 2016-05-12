@@ -155,15 +155,17 @@ public class getPatternRecord {
 			else
 				normalPPL[5]+=1;
 		}
-		//for(int i=0;i<=5;i++)
-		//	System.out.println(i+":"+normalPPL[i]);
-		for(PatternRecord pr:patternRecords)
-			System.out.println(pr.toString());
+		for(int i=0;i<=5;i++)
+			System.out.println(i+":"+normalPPL[i]);
+		//for(PatternRecord pr:patternRecords)
+		//	System.out.println(pr.toString());
 	}
 	public static void print(String id,List<Cluster> clusterList){
 		for(Cluster c:clusterList){
 			for(DataPoint dp:c.getDataPoints()){
-				System.out.println(id+","+c.getClusterName()+","+dp.getLon()+","+dp.getLat()+","+dp.getSTime()+","+dp.getETime());
+				if(!dp.getId().equals("3699455709439481900"))
+					continue;
+				System.out.println(id+","+c.getClusterName()+","+dp.getLon()+","+dp.getLat()+","+dp.getDate()+","+dp.getSTime()+","+dp.getETime());
 			}
 		}
 	}
@@ -198,10 +200,10 @@ public class getPatternRecord {
 			System.out.println("Now generatePatternRecord "+stayRecordFile.getName());
 			for(String id:map.keySet()){
 				ClusterAnalysis ca = new ClusterAnalysis();
-				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 500, 1);
-				print(id,clusterList);
-				if(true)
-					continue;
+				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 1000, 1);
+				//print(id,clusterList);
+				//if(true)
+				//	continue;
 				PatternRecord patternRecord = generatePatternRecord(id,clusterList);
 				identifyPatternRecord(patternRecord);
 				patternRecords.add(patternRecord);
