@@ -193,7 +193,7 @@ public class DataOverview {
 			bw.write("["+pos+","+df.format(map.get(pos))+"],\n");
 		bw.write("];\n");
 		
-		bw.write("var count_legent_data = ['0~10','10~20','20~30','30~40','40~50','50~'];\n");
+		bw.write("var count_legend_data = ['0~10','10~20','20~30','30~40','40~50','50~'];\n");
 		bw.write("var count_data = [\n");
 		bw.write("{value:"+rcdNum[0]+",name:'0~10'},\n");
 		bw.write("{value:"+rcdNum[1]+",name:'10~20'},\n");
@@ -203,7 +203,7 @@ public class DataOverview {
 		bw.write("{value:"+rcdNum[5]+",name:'50~'},\n");
 		bw.write("];\n");
 		
-		bw.write("var update_legent_data = ['0~10','10~30','30~60','60~120','120~'];\n");
+		bw.write("var update_legend_data = ['0~10','10~30','30~60','60~120','120~'];\n");
 		bw.write("var update_data = [\n");
 		bw.write("{value:"+updNum[0]+",name:'0~10'},\n");
 		bw.write("{value:"+updNum[0]+",name:'10~30'},\n");

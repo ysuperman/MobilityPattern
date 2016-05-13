@@ -149,7 +149,7 @@ public class getPatternRecord {
 		System.out.println("Now exporting "+stayRecordFile.getAbsolutePath());
 		int[] normalPPL = new int[6];
 		for(PatternRecord pr:patternRecords){
-			int n = pr.getNormalPoints().size();
+			int n = pr.getDynamicPoints().size();
 			if(n<5)
 				normalPPL[n]+=1;
 			else
@@ -163,7 +163,7 @@ public class getPatternRecord {
 	public static void print(String id,List<Cluster> clusterList){
 		for(Cluster c:clusterList){
 			for(DataPoint dp:c.getDataPoints()){
-				if(!dp.getId().equals("3699455709439481900"))
+				if(!dp.getId().equals("3699646460041480500"))
 					continue;
 				System.out.println(id+","+c.getClusterName()+","+dp.getLon()+","+dp.getLat()+","+dp.getDate()+","+dp.getSTime()+","+dp.getETime());
 			}
@@ -201,7 +201,7 @@ public class getPatternRecord {
 			for(String id:map.keySet()){
 				ClusterAnalysis ca = new ClusterAnalysis();
 				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 1000, 1);
-				//print(id,clusterList);
+				print(id,clusterList);
 				//if(true)
 				//	continue;
 				PatternRecord patternRecord = generatePatternRecord(id,clusterList);
