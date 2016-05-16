@@ -5,9 +5,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import Config.Config;
 import DBSCAN.Cluster;
@@ -55,6 +57,23 @@ public class getPatternRecord {
 			map.get(afs[0]).add(dp);
 		}
 		br.close();
+	}
+	/*
+	 * 对载入到map中的用户进行清洗，只保留每天都有数据的用户
+	 */
+	public static void shuffleStayRecord(){
+		System.out.println("Now shuffling Stay Reocrd...");
+		System.out.println("before shuffling, the number of user is: "+map.size());
+		Set<String> idSet = new HashSet<String>(map.keySet());
+		for(String id:idSet){
+			List<DataPoint> dps = map.get(id);
+			Set<String> dates = new HashSet<String>();
+			for(DataPoint dp:dps)
+				dates.add(dp.getDate());
+			if(dates.size()<(dayLength/4*3))
+				map.remove(id);
+		}
+		System.out.println("after shuffling, the number of user is: "+map.size());
 	}
 	/*
 	 * 对集合内元素进行分析
@@ -149,6 +168,9 @@ public class getPatternRecord {
 		System.out.println("Now exporting "+stayRecordFile.getAbsolutePath());
 		int[] normalPPL = new int[6];
 		for(PatternRecord pr:patternRecords){
+			int m = pr.getNormalPoints().size();
+			if(m!=2)
+				continue;
 			int n = pr.getDynamicPoints().size();
 			if(n<5)
 				normalPPL[n]+=1;
@@ -163,11 +185,18 @@ public class getPatternRecord {
 	public static void print(String id,List<Cluster> clusterList){
 		for(Cluster c:clusterList){
 			for(DataPoint dp:c.getDataPoints()){
-				if(!dp.getId().equals("3699646460041480500"))
-					continue;
+				//if(!dp.getId().equals("3700204652417615400"))
+				//	continue;
 				System.out.println(id+","+c.getClusterName()+","+dp.getLon()+","+dp.getLat()+","+dp.getDate()+","+dp.getSTime()+","+dp.getETime());
 			}
 		}
+	}
+	public static void printPR(PatternRecord pr){
+		if(!pr.getId().equals("3699470638537988000"))
+			return;
+		System.out.println(pr.getId()+"--pr------------");
+		System.out.println(pr.getNormalPoints().size());
+		System.out.println(pr.getDynamicPoints().size());
 	}
 	public static void main(String[] args)throws Exception{
 		Config.init();
@@ -197,16 +226,20 @@ public class getPatternRecord {
 			for(File file:stayRecordFilePerday){
 				importStayRecord(file);
 			}
+			shuffleStayRecord();
 			System.out.println("Now generatePatternRecord "+stayRecordFile.getName());
 			for(String id:map.keySet()){
 				ClusterAnalysis ca = new ClusterAnalysis();
-				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 1000, 1);
-				print(id,clusterList);
+				List<Cluster> clusterList = ca.doDbscanAnalysis(map.get(id), 500, 1);
+				//print(id,clusterList);
 				//if(true)
 				//	continue;
-				PatternRecord patternRecord = generatePatternRecord(id,clusterList);
-				identifyPatternRecord(patternRecord);
-				patternRecords.add(patternRecord);
+				PatternRecord pr = generatePatternRecord(id,clusterList);
+				//if(pr.getNormalPoints().size()==1)
+				//	print(id,clusterList);
+				//printPR(pr);
+				identifyPatternRecord(pr);
+				patternRecords.add(pr);
 			}//endfor
 			exportPatternRecord(stayRecordFile);
 			//System.out.println("total="+total+";single="+single+"\n");
