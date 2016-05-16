@@ -169,7 +169,7 @@ public class getPatternRecord {
 		int[] normalPPL = new int[6];
 		for(PatternRecord pr:patternRecords){
 			int m = pr.getNormalPoints().size();
-			if(m!=2)
+			if(m<=2)
 				continue;
 			int n = pr.getDynamicPoints().size();
 			if(n<5)
