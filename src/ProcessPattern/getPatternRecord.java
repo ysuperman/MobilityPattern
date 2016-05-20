@@ -169,9 +169,17 @@ public class getPatternRecord {
 		int[] normalPPL = new int[6];
 		for(PatternRecord pr:patternRecords){
 			int m = pr.getNormalPoints().size();
-			if(m<=2)
+			if(m!=1)
 				continue;
-			int n = pr.getDynamicPoints().size(); 
+			int n = pr.getDynamicPoints().size();
+			if(n!=0)
+				continue;
+			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+			System.out.println(pr.getId());
+			System.out.println("-----------------");
+			PatternPoint pp = pr.getNormalPoints().get(0);
+			for(int i=0;i<pp.getSTimes().size();i++)
+				System.out.println(pp.getSTimes().get(i)+"-"+pp.getETimes().get(i));
 		}
 		for(int i=0;i<=5;i++)
 			System.out.println(i+":"+normalPPL[i]);
