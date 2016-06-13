@@ -66,9 +66,9 @@ public class DataOverview {
 			map.put(key, val);
 		}
 	}
-	//用户记录数分布(0,10),(10,20),(20,30),(30,40),(40,50),(50,)
+	//用户记录数分布[0,5),[5,10),[10,15),[15,20),[20,25),[25,30),[30,35),[35,40),[40,45),[45,50),[50,)
 	public static void recordNum(File fixedPath)throws Exception{
-		rcdNum = new int[6];
+		rcdNum = new int[11];
 		File[] fixedFiles = fixedPath.listFiles();
 		for(File file:fixedFiles){
 			System.out.println("Now recordNuming "+file.getAbsolutePath());
@@ -78,18 +78,21 @@ public class DataOverview {
 			while((af=br.readLine())!=null){
 				af = af.substring(0,idLength);
 				if(lastAf!=null && !af.equals(lastAf)){
-					value/=10;
-					if(value<5)
+					value/=5;
+					if(value<11)
 						rcdNum[value]+=1;
-					else
-						rcdNum[5]+=1;
+					//else
+					//	rcdNum[20]+=1;
 					value=0;
 				}
 				value+=1;
 				lastAf=af;
 			}
 			br.close();
-			break;
+			//break;
+		}
+		for(int i=0;i<rcdNum.length;i++){
+			System.out.println(i+":"+rcdNum[i]);
 		}
 	}
 	//更新周期分布(0,10),(10,30),(30,60),(60,120),(120,)
@@ -193,14 +196,19 @@ public class DataOverview {
 			bw.write("["+pos+","+df.format(map.get(pos))+"],\n");
 		bw.write("];\n");
 		
-		bw.write("var count_legend_data = ['0~10','10~20','20~30','30~40','40~50','50~'];\n");
+		bw.write("var count_legend_data = ['0~5','5~10','10~15','15~20','20~25','25~30','30~35','35~40','40~45','45~50','50~'];\n");
 		bw.write("var count_data = [\n");
-		bw.write("{value:"+rcdNum[0]+",name:'0~10'},\n");
-		bw.write("{value:"+rcdNum[1]+",name:'10~20'},\n");
-		bw.write("{value:"+rcdNum[2]+",name:'20~30'},\n");
-		bw.write("{value:"+rcdNum[3]+",name:'30~40'},\n");
-		bw.write("{value:"+rcdNum[4]+",name:'40~50'},\n");
-		bw.write("{value:"+rcdNum[5]+",name:'50~'},\n");
+		bw.write("{value:"+rcdNum[0]+",name:'0~5'},\n");
+		bw.write("{value:"+rcdNum[1]+",name:'5~10'},\n");
+		bw.write("{value:"+rcdNum[2]+",name:'10~15'},\n");
+		bw.write("{value:"+rcdNum[3]+",name:'15~20'},\n");
+		bw.write("{value:"+rcdNum[4]+",name:'20~25'},\n");
+		bw.write("{value:"+rcdNum[5]+",name:'25~30'},\n");
+		bw.write("{value:"+rcdNum[6]+",name:'30~35'},\n");
+		bw.write("{value:"+rcdNum[7]+",name:'35~40'},\n");
+		bw.write("{value:"+rcdNum[8]+",name:'40~45'},\n");
+		bw.write("{value:"+rcdNum[9]+",name:'45~50'},\n");
+		bw.write("{value:"+rcdNum[10]+",name:'50~'},\n");
 		bw.write("];\n");
 		
 		bw.write("var update_legend_data = ['0~10','10~30','30~60','60~120','120~'];\n");
@@ -231,12 +239,12 @@ public class DataOverview {
 		maxLat = Double.valueOf(Config.getAttr(Config.CityMaxLat));
 		minLat = Double.valueOf(Config.getAttr(Config.CityMinLat));
 		idLength = Integer.valueOf(Config.getAttr(Config.IdLength));
-		heatMap(new File(Config.getAttr(Config.FixedPath)));
+		//heatMap(new File(Config.getAttr(Config.FixedPath)));
 		recordNum(new File(Config.getAttr(Config.FixedPath)));
-		updatePeriod(new File(Config.getAttr(Config.FixedPath)));
-		numPerhour(new File(Config.getAttr(Config.FixedPath)));
-		userPerhour(new File(Config.getAttr(Config.FixedPath)));
-		generateJson("F:\\sample\\phone_heat_data_"+Config.getAttr(Config.Date)+".json");
+		//updatePeriod(new File(Config.getAttr(Config.FixedPath)));
+		//numPerhour(new File(Config.getAttr(Config.FixedPath)));
+		//userPerhour(new File(Config.getAttr(Config.FixedPath)));
+		//generateJson("F:\\sample\\phone_heat_data_"+Config.getAttr(Config.Date)+".json");
 		System.out.println("finish");
 	}
 }
