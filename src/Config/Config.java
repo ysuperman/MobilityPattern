@@ -30,7 +30,7 @@ public class Config {
 	public static final String GoodRecordPath = "5goodRecord";
 	public static final String MergeSameLocPath = "6mergeSameLoc";
 	public static final String StayRecordPath = "7stayRecord";
-	public static final String ODPath = "8OD";
+	public static final String ODRecordPath = "8ODRecord";
 	//PatternPath子目录
 	public static final String PatternRecordPath = "0patternRecord";
 	
@@ -54,7 +54,7 @@ public class Config {
 		GoodRecordPath,
 		MergeSameLocPath,
 		StayRecordPath,
-		ODPath
+		ODRecordPath
 	};
 	private static final String[] PatternPathGenerateKeys = {
 		PatternRecordPath
