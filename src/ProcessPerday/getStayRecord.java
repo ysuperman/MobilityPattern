@@ -273,10 +273,8 @@ public class getStayRecord {
 				if(point.getState()==1)
 					count+=1;
 			}
-			if(count<10)
-				stat[count]+=1;
-			else
-				stat[10]+=1;
+			if(count==5)
+				System.out.println(user.getId());
 		}
 	}
 	
@@ -289,9 +287,9 @@ public class getStayRecord {
 			importRawRecord(file);
 			calStayRecord();
 			stat();
-			exportStayRecord(file.getName());
+			//exportStayRecord(file.getName());
 			//if(++j>=1)
-			//	break;
+				break;
 		}
 		System.out.println("finish");
 		
