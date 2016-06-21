@@ -3,7 +3,7 @@ package Analysis;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import DBSCAN.Cluster;
@@ -23,75 +23,56 @@ import DBSCAN.DataPoint;
  */
 public class DBSCANforCompare {
 	public static void main(String[] args)throws Exception{
-		   File userNameFile = new File("F:\\Experiment\\sp1.txt");
-		   File goodRecordFile = new File("F:\\BJmobile\\20130226\\5goodRecord\\00.txt");
-		   //读入user list
-		   BufferedReader br = new BufferedReader(new FileReader(userNameFile));
-		   String[] userList = new String[20];
-		   String af=null;
-		   int i=0;
-		   while((af=br.readLine())!=null){
-			   userList[++i]=af;
-		   }
-		   br.close();
-		   //对每个user进行分析
-		   for(String user:userList){
-			   //去goodRecord挑user的record
-			   br = new BufferedReader(new FileReader(goodRecordFile));
-			   
-			   br.close();
-		   }
-
-		   
-		   
-	       ArrayList<DataPoint> dpoints = new ArrayList<DataPoint>();
-	      /*
-	       double[] a={2,3};
-	       double[] b={2,4};
-	       double[] c={1,4};
-	       double[] d={1,3};
-	       double[] e={2,2};
-	       double[] f={3,2};
-
-	       double[] g={8,7};
-	       double[] h={8,6};
-	       double[] i={7,7};
-	       double[] j={7,6};
-	       double[] k={8,5};
-
-	       double[] l={100,2};//孤立点
-
-
-	       double[] m={8,20};
-	       double[] n={8,19};
-	       double[] o={7,18};
-	       double[] p={7,17};
-	       double[] q={8,21};
-
-	       dpoints.add(new DataPoint(a,"a",false));
-	       dpoints.add(new DataPoint(b,"b",false));
-	       dpoints.add(new DataPoint(c,"c",false));
-	       dpoints.add(new DataPoint(d,"d",false));
-	       dpoints.add(new DataPoint(e,"e",false));
-	       dpoints.add(new DataPoint(f,"f",false));
-
-	       dpoints.add(new DataPoint(g,"g",false));
-	       dpoints.add(new DataPoint(h,"h",false));
-	       dpoints.add(new DataPoint(i,"i",false));
-	       dpoints.add(new DataPoint(j,"j",false));
-	       dpoints.add(new DataPoint(k,"k",false));
-
-	       dpoints.add(new DataPoint(l,"l",false));
-
-	       dpoints.add(new DataPoint(m,"m",false));
-	       dpoints.add(new DataPoint(n,"n",false));
-	       dpoints.add(new DataPoint(o,"o",false));
-	       dpoints.add(new DataPoint(p,"p",false));
-	       dpoints.add(new DataPoint(q,"q",false));
-			*/
-	       ClusterAnalysis ca=new ClusterAnalysis();
-	       List<Cluster> clusterList=ca.doDbscanAnalysis(dpoints, 2, 4);
-	       ca.displayCluster(clusterList);
-
-	   }
+		List<DataPoint> dpoints;
+		int targetCluster=5;
+		int totalCluster=0;
+		int userSetSize=100;
+		File userNameFile = new File("F:\\Experiment\\sp5.txt");
+		File goodRecordFile = new File("F:\\BJmobile\\20130226\\5goodRecord\\00.txt");
+		int wa=0;
+		//读入user list
+		BufferedReader br = new BufferedReader(new FileReader(userNameFile));
+		String[] userList = new String[userSetSize];
+		String af=null;
+		int i=0;
+		while((af=br.readLine())!=null){
+			userList[i++]=af;
+		}
+		br.close();
+		//对每个user进行分析
+		for(String user:userList){
+			//去goodRecord挑该user的record，并存入DataPointList中
+			System.out.println("Now dealing with user:"+user);
+			dpoints = new LinkedList<DataPoint>();
+			br = new BufferedReader(new FileReader(goodRecordFile));
+			af=null;
+			String[] afs;
+			int name=0;
+			while((af=br.readLine())!=null){
+				afs = af.split(",");
+				if(!user.equals(afs[0]))
+					continue;
+				DataPoint dp = new DataPoint();
+				dp.setDataPointName(String.valueOf(name++));
+				dp.setId(user);
+				dp.setDate(afs[1]);
+				dp.setLon(Double.valueOf(afs[5]));
+				dp.setLat(Double.valueOf(afs[6]));
+				dp.setSTime(afs[2]);
+				dp.setETime(afs[2]);
+				dp.setKey(false);
+				dpoints.add(dp);
+			}
+			br.close();
+			ClusterAnalysis ca=new ClusterAnalysis();
+		    List<Cluster> clusterList=ca.doDbscanAnalysis(dpoints, 1200, 5);
+		    int nc = ca.displayCluster(clusterList);
+		    totalCluster+=nc;
+		    if(nc!=targetCluster)
+		    	wa++;
+		    System.out.println("#############################################");
+		}
+		System.out.println("wrong="+wa);
+		System.out.println("avg="+totalCluster*1.0/userSetSize);
+	}
 }

@@ -40,10 +40,12 @@ public class ClusterAnalysis {
 
    
 
-    public void displayCluster(List<Cluster> clusterList){
+    public int displayCluster(List<Cluster> clusterList){
+    	int num=0;
         if(clusterList!=null){
             for(Cluster tempCluster:clusterList){
                 if(tempCluster.getDataPoints()!=null&&tempCluster.getDataPoints().size()>0){
+                	num+=1;
                     System.out.println("----------"+tempCluster.getClusterName()+"----------");
                     for(DataPoint dp:tempCluster.getDataPoints()){
                         System.out.println(dp.getDataPointName());
@@ -51,6 +53,8 @@ public class ClusterAnalysis {
                 }
             }
         }
+        //System.out.println(num);
+        return num;
     }
 
    
