@@ -3,6 +3,8 @@ package DBSCANforTrip;
 import java.util.ArrayList;
 import java.util.List;
 
+import RoutesMining.DTW;
+
 public class ClusterAnalysis {
     public List<Cluster> doDbscanAnalysis(List<DataPoint> dataPoints,
             double radius, int ObjectNum) {
@@ -62,11 +64,8 @@ public class ClusterAnalysis {
         double distance=0.0;
         //double[] dim1=dp1.getDimensioin();
         //double[] dim2=dp2.getDimensioin();
-        double lon1 = dp1.getLon();
-        double lat1 = dp1.getLat();
-        double lon2 = dp2.getLon();
-        double lat2 = dp2.getLat();
-        distance = distanceInGlobal(lon1,lat1,lon2,lat2);
+        DTW dtw = new DTW(dp1.getStayPoints(),dp2.getStayPoints());
+        distance = dtw.getDistance();
         return distance;
     }
     /*

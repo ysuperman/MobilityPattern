@@ -1,36 +1,32 @@
 package DBSCANforTrip;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import Model.StayPoint;
 
 public class DataPoint {
     private String dataPointName; // 样本点名
     private String id;
     private String date;
-    private String sTime,eTime;
-    private double lon,lat;
+    private List<StayPoint> stayPoints;
     private boolean isKey; //是否是核心对象
 
     public DataPoint(){
-
+    	stayPoints = new LinkedList<StayPoint>();
     }
-    public DataPoint(String dataPointName,String id,String date,StayPoint sp,boolean isKey){
+    public DataPoint(String dataPointName,String id,String date,List<StayPoint> sps,boolean isKey){
     	this.dataPointName = dataPointName;
     	this.id = id;
     	this.date = date;
-    	this.lon = sp.getLon();
-    	this.lat = sp.getLat();
-    	this.sTime = sp.getSTime();
-    	this.eTime = sp.getETime();
+    	this.stayPoints = sps;
     	this.isKey = isKey;
     }
     public DataPoint(DataPoint dp){
     	this.dataPointName = dp.dataPointName;
     	this.id = dp.id;
     	this.date = dp.date;
-    	this.sTime = dp.sTime;
-    	this.eTime = dp.eTime;
-    	this.lon = dp.lon;
-    	this.lat = dp.lat;
+    	this.stayPoints = dp.stayPoints;
     	this.isKey = dp.isKey;
     }
     public String getDataPointName() {
@@ -45,35 +41,14 @@ public class DataPoint {
     public void setId(String id){
     	this.id = id;
     }
-    public double getLon(){
-    	return lon;
-    }
-    public void setLon(double lon){
-    	this.lon = lon;
-    }
-    public double getLat(){
-    	return lat;
-    }
-    public void setLat(double lat){
-    	this.lat = lat;
-    }
     public String getDate(){
     	return date;
     }
     public void setDate(String date){
     	this.date = date;
     }
-    public String getSTime(){
-    	return sTime;
-    }
-    public void setSTime(String sTime){
-    	this.sTime = sTime;
-    }
-    public String getETime(){
-    	return eTime;
-    }
-    public void setETime(String eTime){
-    	this.eTime = eTime;
+    public List<StayPoint> getStayPoints(){
+    	return stayPoints;
     }
     public boolean isKey(){
     	return isKey;
