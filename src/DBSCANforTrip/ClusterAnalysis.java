@@ -66,6 +66,7 @@ public class ClusterAnalysis {
         //double[] dim2=dp2.getDimensioin();
         DTW dtw = new DTW(dp1.getStayPoints(),dp2.getStayPoints());
         distance = dtw.getDistance();
+        System.out.println("dis="+distance);
         return distance;
     }
     /*
@@ -191,7 +192,7 @@ public class ClusterAnalysis {
 		*/
        ClusterAnalysis ca=new ClusterAnalysis();
        List<Cluster> clusterList=ca.doDbscanAnalysis(dpoints, 2, 4);
-       ca.displayCluster(clusterList);
-
+       int nc = ca.displayCluster(clusterList);
+       System.out.println("Number of Cluster:"+nc);
    }
 }
