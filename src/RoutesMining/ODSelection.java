@@ -35,11 +35,16 @@ public class ODSelection {
 	public static final double OMinLon = 116.406162;
 	public static final double OMaxLat = 40.079664;
 	public static final double OMinLat = 40.061106;
-	//D-国贸/中关村
-	public static final double DMaxLon = 116.333576;//116.477652;
-	public static final double DMinLon = 116.305387;//116.450161;
-	public static final double DMaxLat = 39.985127;//39.913619;
-	public static final double DMinLat = 39.973844;//39.903507;
+	//D-国贸
+	public static final double DMaxLon = 116.477652;
+	public static final double DMinLon = 116.450161;
+	public static final double DMaxLat = 39.913619;
+	public static final double DMinLat = 39.903507;
+	//R-Routes范围
+	public static final double RMaxLon = 116.548925;
+	public static final double RMinLon = 116.391873;
+	public static final double RMaxLat = 40.113943;
+	public static final double RMinLat = 39.893205;
 	
 	public static List<StayRecord> stayRecords = new LinkedList<StayRecord>();
 	public static List<StayRecord> ODRecords = new LinkedList<StayRecord>();
@@ -84,11 +89,14 @@ public class ODSelection {
 			ODRecords.add(person);
 			int label=-1;
 			for(int i=0;i<user.getStayPoints().size();i++){
-				//如果不是停留点，continue
-				if(user.getStayPoints().get(i).getState()==0)
-					continue;
 				double lon = user.getStayPoints().get(i).getLon();
 				double lat = user.getStayPoints().get(i).getLat();
+				//如果不是停留点，判断是否在R范围内，如果在，label=-1，不管在不在，continue
+				if(user.getStayPoints().get(i).getState()==0){
+					if(lon<RMinLon || lon>RMaxLon || lat<RMinLat || lat>RMaxLat)
+						label=-1;
+					continue;
+				}
 				//如果起点在O范围内
 				if(lon<OMaxLon && lon>OMinLon && lat<OMaxLat && lat>OMinLat){
 					label=i;
@@ -130,13 +138,13 @@ public class ODSelection {
 		int k=0;
 		for(File file:stayRecordFiles){
 			k++;
-			if((k&1)==1)
-				continue;
+			//if((k&1)==1)
+			//	continue;
 			importStayRecord(file);
 			extractOD();
-			exportOD("20oddout2.txt");
-			if(k>=40)
-				break;
+			exportOD("100out.txt");
+			//if(k>=40)
+			//	break;
 		}
 		System.out.println("finish");
 	}
