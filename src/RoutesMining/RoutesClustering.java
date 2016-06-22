@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import Config.Config;
 import DBSCANforTrip.Cluster;
 import DBSCANforTrip.ClusterAnalysis;
 import DBSCANforTrip.DataPoint;
@@ -69,21 +70,40 @@ public class RoutesClustering {
         }
 	}
 	public static void main(String[] args)throws Exception{
+		Config.init();
 		List<DataPoint> dpoints = new LinkedList<DataPoint>();
-		File ODRecordFile = new File("F:\\BJmobile\\20130226\\8ODRecord\\100out.txt");
-		File ODRoutesPath = new File("F:\\BJmobile\\20130226\\9ODRoutes\\");
+		String ODRecordFileName = Config.getAttr(Config.ODRecordPath)+"\\moreThan40Out.txt";
+		String ODRoutesPathName = Config.getAttr(Config.ODRoutesPath)+"\\";
+		//File ODRecordFile = new File(ODRecordFileName);
+		File ODRecordFile = new File("F:\\Experiment\\s\\moreThan40Out.csv");
+		//File ODRoutesPath = new File(ODRoutesPathName);
+		File ODRoutesPath = new File("F:\\Experiment\\routes\\");
 		
 		importStayRecord(ODRecordFile);
 		int k=0;
 		for(String user:map.keySet()){
 			StayRecord sr = map.get(user);
+			/*
+			if(sr.getStayPoints().size()>=40){
+				System.out.println(user);
+				k+=1;
+			}
+			if(true)
+				continue;
+			*/
 			DataPoint dp = new DataPoint(String.valueOf(k++),sr.getId(),sr.getDate(),sr.getStayPoints(),false);
 			dpoints.add(dp);
 		}
+		/*
+		System.out.println(map.keySet().size());
+		System.out.println(k);
+		if(true)
+			return;
+		*/
 		ClusterAnalysis ca = new ClusterAnalysis();
-		List<Cluster> clusterList = ca.doDbscanAnalysis(dpoints, 800, 5);
+		List<Cluster> clusterList = ca.doDbscanAnalysis(dpoints, 800, 2);
 		int nc = ca.displayCluster(clusterList);
 		System.out.println("Number of Cluster:"+nc);
-		//exportODRoutes(clusterList,ODRoutesPath);
+		exportODRoutes(clusterList,ODRoutesPath);
 	}
 }

@@ -103,7 +103,7 @@ public class ODSelection {
 					continue;
 				}
 				//如果终点在D范围内
-				if(label!=-1 && lon<DMaxLon && lon>DMinLon && lat<DMaxLat && lat>DMinLat){
+				if(label!=-1 && i-label+1>=40 && lon<DMaxLon && lon>DMinLon && lat<DMaxLat && lat>DMinLat){
 					for(int j=label;j<=i;j++){
 						StayPoint point = new StayPoint(user.getStayPoints().get(j));
 						if(j==label)
@@ -142,7 +142,7 @@ public class ODSelection {
 			//	continue;
 			importStayRecord(file);
 			extractOD();
-			exportOD("100out.txt");
+			exportOD("moreThan40Out.txt");
 			//if(k>=40)
 			//	break;
 		}
