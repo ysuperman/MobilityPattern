@@ -63,7 +63,7 @@ public class BJmobile {
 		br.close();
 	}
 	/*
-	 * 在1withPos文件夹中创建两位尾数命名的txt文件
+	 * 在1fixed文件夹中创建两位尾数命名的txt文件
 	 */
 	public static void mkDir(String[] fileNames, String fixedPathName)throws Exception{
 		File fixedPath = new File(fixedPathName);

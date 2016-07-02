@@ -32,6 +32,7 @@ public class Config {
 	public static final String StayRecordPath = "7stayRecord";
 	public static final String ODRecordPath = "8ODRecord";
 	public static final String ODRoutesPath = "9ODRoutes";
+	public static final String Temp_Logs = "Temp_Logs";
 	//PatternPath子目录
 	public static final String PatternRecordPath = "0patternRecord";
 	
