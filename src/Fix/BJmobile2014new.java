@@ -24,6 +24,7 @@ import Config.Config;
 
 class FeatureComparator implements Comparator <Feature>{  
     public final int compare(Feature a, Feature b) {  
+    	
     	if(a.id>b.id){
 			return 1;
 		}else if(a.id<b.id){
@@ -39,7 +40,7 @@ class FeatureComparator implements Comparator <Feature>{
 }  
 
 
-public class BJmobile2 {
+public class BJmobile2014new {
 	public static double cityMaxLon;
 	public static double cityMaxLat;
 	public static double cityMinLon;
@@ -113,7 +114,6 @@ public class BJmobile2 {
 		br = new BufferedReader(new FileReader(rawFile));
 		String af;
 		String[] afList;
-		double x,y;
 		while((af=br.readLine())!=null){
 			Cnt_records++;
 			afList = af.split(",");
@@ -138,34 +138,19 @@ public class BJmobile2 {
 			}
 			try
 			{
-				x=Double.valueOf(afList[4]);
-				if (x<cityMinLon || x>cityMaxLon)
-				{
-					Cnt_usl_records++;
-					continue;
-				}
+				Double.valueOf(afList[4]);
 			}	catch(Exception e){
-			//	System.out.println("error."+af);
 				Cnt_usl_records++;
 				continue;
 			}
-			
-
 			if(afList[5].length()<3)
 			{
 				Cnt_usl_records++;
 				continue;
 			}
-			
 			try{
-			y=Double.valueOf(afList[5]);
-			if (y<cityMinLat || y>cityMaxLat)
-			{
-				Cnt_usl_records++;
-				continue;
-			}
+			Double.valueOf(afList[5]);
 			}catch (Exception e){
-//				System.out.println("error."+af);
 				Cnt_usl_records++;
 				continue;
 			}
@@ -193,80 +178,10 @@ public class BJmobile2 {
 		if (FileList.size()==0) return;
 		feature=Feature.createFeature(FileList,idLen);
 		Arrays.sort(feature, new FeatureComparator());
-		//qsort(feature,0,FileList.size()-1);
-		
-		/*
-		String af;
-		String afList[]=new String[1500000];
-		br = new BufferedReader(new FileReader(fixedFile));
-		int i=0;
-		while((af=br.readLine())!=null)
-			afList[i++]=af;
-		br.close();
-		if (i==0) return;
-		qsort(afList,0,i-1);
-		*/
 
 	}
-	/*public static void qsort(Feature[] a,int s,int t){
-		int i=s;
-		int j=t;
-		int k=i+(j-i)/2;
-		Feature x = a[k];
-		a[k]=a[i];
-		a[i]=x;
-		while(i<j){
-			while((i<j) && a[j].isBiggerThan(x))
-				j--;
-			a[i]=a[j];
-			while((i<j) && x.isBiggerThan(a[i]))
-				i++;
-			a[j]=a[i];
-		}
-		a[i]=x;
-		if(i-1>s)
-			qsort(a,s,i-1);
-		if(j+1<t)
-			qsort(a,j+1,t);
-	}
-	*/
-	/*public static void qsort(String[] a,int s,int t){
-		int i=s;
-		int j=t;
-		int k=i+(j-i)/2;
-		String x = a[k];
-		a[k]=a[i];
-		a[i]=x;
-		while(i<j){
-			while((i<j) && (biger(a[j],x)))
-				j--;
-			a[i]=a[j];
-			while((i<j) && (biger(x,a[i])))
-				i++;
-			a[j]=a[i];
-		}
-		a[i]=x;
-		if(i-1>s)
-			qsort(a,s,i-1);
-		if(j+1<t)
-			qsort(a,j+1,t);
-	}
 	
-	public static boolean biger(String a,String b){
-		String[] aList = a.split(",");
-		String[] bList = b.split(",");
-		if(aList.length<3)
-			return true;
-		if(bList.length<3)
-			return false;
-		if(aList[0].compareTo(bList[0])>0)
-			return true;
-		else if(aList[0].compareTo(bList[0])==0 && aList[2].compareTo(bList[2])>=0)
-			return true;
-		else
-			return false;
-	}
-	*/
+	
 	/*
 	 * 删除文件中重复出现的record
 	 */
@@ -296,10 +211,10 @@ public class BJmobile2 {
 
 		}
 		bws[0].close();
-		for (int i=0;i<FileList.size();i++) feature[i]=null;
-		feature=null;
-		FileList.clear();
-		FileList=null;
+//		for (int i=0;i<FileList.size();i++) feature[i]=null;
+//		feature=null;
+//		FileList.clear();
+//		FileList=null;
 	}
 	
 	public static void main(String[] args)throws Exception{
@@ -341,14 +256,15 @@ public class BJmobile2 {
 }
 /*修改自BJmobile.java。
  *整合了BJmobile2014.java中关于ID取Hash后两位以及原始数据项格式判断的代码。
- *新增对原始数据项日期长度，经纬度是否处在CityMax~CityMin之间的判断。
+ *新增对原始数据项日期长度，经纬度是否为实型之间的判断。
  *新增数据质量评估统计功能（总记录数、无效记录数、重复记录数、有效记录数、有效用户数、平均用户有效记录数、平均相邻时间间隔） 。
  * 新增成员Cnt_records,Cnt_usl_records,Cnt_rep_records,Cnt_usf_records,Cnt_users,
    Cnt_interval_n,Cnt_interval_t,Avg_records,Avg_interval统计数据信息,
    DateS,FixedFiles,FileList,feature提升运行效率。
  * 删除成员total,useful,fileNums,basePos及相关代码。
  * 优化执行效率（避免fixedFiles重复计算,判断date串是否匹配当前日期时的重复计算,
-        将SortByTime和deleteRepeat函数中的afList数据类型改为ArrayList避免重复读取
+        将SortByTime和deleteRepeat函数中的afList数据类型改为ArrayList，去除Sort后写delete前读的过程，避免重复读取,
+          调用Arrays自带的sort方法替代自主编写的qsort
  * 构造Feature类，处理数据项特征值（ID，时间）相关
         将从1fixed中文件读取的afList数组提取特征值构建特征数组feature，通过对feature排序提升排序效率 
 

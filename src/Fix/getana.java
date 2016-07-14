@@ -30,11 +30,11 @@ public class getana {
 			while (br.readLine()!=null)
 				Cnt_usl_records++;
 		}
-		System.out.println("total records:"+Cnt_records);
+
 		System.out.println("total records:"+String.valueOf(Cnt_records));
 		
-		System.out.println("useless records:"+Cnt_usl_records);
-		System.out.println("total records:"+String.valueOf(Cnt_usl_records));
+	
+		System.out.println("useless records:"+String.valueOf(Cnt_records-Cnt_usl_records));
 		
 	}
 

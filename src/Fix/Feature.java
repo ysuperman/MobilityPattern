@@ -29,15 +29,7 @@ public class Feature {
 			re[i]=new Feature(afList.get(i),i);
 		return re;
 	}
-	public boolean isBiggerThan(Feature another){
-		long re;
-		re=	id-another.id;
-		if (re==0)
-			if (time>=another.time) return true;
-			else return false;
-		else if (re<0) return false;
-		else return true;
-	}	
+
 	public static void main(String argv[]) throws Exception {
 			Scanner sc=new Scanner(System.in);
 			String Sin=sc.nextLine();
