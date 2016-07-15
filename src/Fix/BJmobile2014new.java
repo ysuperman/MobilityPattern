@@ -32,9 +32,10 @@ class FeatureComparator implements Comparator <Feature>{
 		}else {
 				if(a.time>b.time){
 					return 1;
-				}else{
+				}else if (a.time<b.time){
 					return -1;
-				}
+				}else 
+					return 0;
 		}
     }  
 }  
