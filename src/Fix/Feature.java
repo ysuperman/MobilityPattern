@@ -10,12 +10,12 @@ import java.util.Scanner;
 
 
 public class Feature {
-	public long id;
+	public String id;
 	public int time;
 	public int index;
 	private static int idLen;
 	public  Feature(String term,int idx){
-		this.id=Long.valueOf(term.substring(0, idLen));
+		this.id=term.substring(0, idLen);
 		this.index=idx;
 		this.time=Integer.valueOf(term.substring(idLen+10,idLen+12))*3600;
 		this.time+=Integer.valueOf(term.substring(idLen+12,idLen+14))*60;

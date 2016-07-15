@@ -24,10 +24,10 @@ import Config.Config;
 
 class FeatureComparator implements Comparator <Feature>{  
     public final int compare(Feature a, Feature b) {  
-    	
-    	if(a.id>b.id){
+    	int cp=a.id.compareTo(b.id);
+    	if(cp>0){
 			return 1;
-		}else if(a.id<b.id){
+		}else if(cp<0){
 			return -1;
 		}else {
 				if(a.time>b.time){
@@ -219,6 +219,8 @@ public class BJmobile2014new {
 	}
 	
 	public static void main(String[] args)throws Exception{
+		long startTime=System.currentTimeMillis();
+		
 		Config.init();
 		cityMaxLon = Double.valueOf(Config.getAttr(Config.CityMaxLon));
 		cityMinLon = Double.valueOf(Config.getAttr(Config.CityMinLon));
@@ -253,6 +255,9 @@ public class BJmobile2014new {
 		System.out.println("平均用户有效记录数："+String.valueOf(Avg_records));
 		Avg_interval=(double)Cnt_interval_t/(double)Cnt_interval_n;
 		System.out.println("平均相邻时间间隔"+String.valueOf(Cnt_interval_t)+","+String.valueOf(Cnt_interval_n)+","+String.valueOf(Avg_interval));
+		long endTime=System.currentTimeMillis();
+   	    float excTime=(float)(endTime-startTime)/1000;
+        System.out.println("执行时间："+excTime+"s");
 	}
 }
 /*修改自BJmobile.java。
