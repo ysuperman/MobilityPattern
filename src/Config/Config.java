@@ -65,7 +65,10 @@ public class Config {
 	private static Map<String, String> configs = new HashMap<String, String>();
 	private static String contextPath = ".";
 	
-	
+	public static void setDay(String Day)
+	{
+		configs.put("date", Day);
+	}
 	public static String getAttr(String attrName){
 		return configs.get(attrName);
 	}
