@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Program_Config>
-<date>20141101</date>
-<workPath>F:\data</workPath>
-<patternPath>F:\data</patternPath>
-<baseFile>F:\data\null.txt</baseFile>
+<date>20141120</date>
+<workPath>D:\data</workPath>
+<patternPath>D:\data</patternPath>
+<baseFile>D:\data\null.txt</baseFile>
 <idLength>18</idLength>
 <cityMaxLon>117.505625</cityMaxLon>
 <cityMinLon>115.357057</cityMinLon>

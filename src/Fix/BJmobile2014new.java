@@ -24,7 +24,8 @@ import Config.Config;
 
 class FeatureComparator implements Comparator <Feature>{  
     public final int compare(Feature a, Feature b) {  
-    	int cp=a.id.compareTo(b.id);
+    	//int cp=a.id.compareTo(b.id);
+    	long cp=a.id-b.id;
     	if(cp>0){
 			return 1;
 		}else if(cp<0){
@@ -62,6 +63,9 @@ public class BJmobile2014new {
 	public static File[] fixedFiles;
 	public static ArrayList<String> FileList;
 	public static Feature feature[];
+	
+	public static long endTime;
+	public static long startTime;
 	public static String[] fileNames_36 = {
 		"0","1","2","3","4","5","6","7","8","9",
 		"a","b","c","d","e","f","g","h","i","j",
@@ -103,6 +107,7 @@ public class BJmobile2014new {
 			fixedFiles[i]=fixedFile;
 		}
 		Arrays.sort(fixedFiles);
+		
 	}
 	/*
 	 * 把按时间分割的数据转存到按ID尾数分割
@@ -177,8 +182,8 @@ public class BJmobile2014new {
 			FileList.add(af);
 		br.close();
 		if (FileList.size()==0) return;
-		feature=Feature.createFeature(FileList,idLen);
-		Arrays.sort(feature, new FeatureComparator());
+		Feature.createFeature(FileList,idLen);
+		Arrays.sort(feature, 0,FileList.size(),new FeatureComparator());
 
 	}
 	
@@ -212,14 +217,15 @@ public class BJmobile2014new {
 
 		}
 		bws[0].close();
-//		for (int i=0;i<FileList.size();i++) feature[i]=null;
-//		feature=null;
-//		FileList.clear();
-//		FileList=null;
+		//for (int i=0;i<FileList.size();i++) feature[i]=null;
+		FileList.clear();
+		FileList=null;
+		System.gc();
 	}
 	
 	public static void main(String[] args)throws Exception{
-		long startTime=System.currentTimeMillis();
+		try{
+		startTime=System.currentTimeMillis();
 		
 		Config.init();
 		cityMaxLon = Double.valueOf(Config.getAttr(Config.CityMaxLon));
@@ -239,12 +245,15 @@ public class BJmobile2014new {
 		}
 		//按id和timestamp排序       并删除重复记录数
 		//fixedFiles=new File(Config.getAttr(Config.FixedPath)).listFiles();
+		feature=Feature.feature;
 		for(int i=0;i< fixedFiles.length;i++){
 			sortByIdTime(fixedFiles[i]);
 			deleteRepeat(fixedFiles[i]);
 		}
-
-
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		finally{
 		System.out.println("finish");
 		System.out.println("总记录数："+String.valueOf(Cnt_records));
 		System.out.println("无效记录数："+String.valueOf(Cnt_usl_records));
@@ -255,9 +264,9 @@ public class BJmobile2014new {
 		System.out.println("平均用户有效记录数："+String.valueOf(Avg_records));
 		Avg_interval=(double)Cnt_interval_t/(double)Cnt_interval_n;
 		System.out.println("平均相邻时间间隔"+String.valueOf(Cnt_interval_t)+","+String.valueOf(Cnt_interval_n)+","+String.valueOf(Avg_interval));
-		long endTime=System.currentTimeMillis();
-   	    float excTime=(float)(endTime-startTime)/1000;
-        System.out.println("执行时间："+excTime+"s");
+		endTime=System.currentTimeMillis();
+		System.out.println("执行时间："+(endTime-startTime)/1000.0f+"s");
+		}
 	}
 }
 /*修改自BJmobile.java。
@@ -273,5 +282,4 @@ public class BJmobile2014new {
           调用Arrays自带的sort方法替代自主编写的qsort
  * 构造Feature类，处理数据项特征值（ID，时间）相关
         将从1fixed中文件读取的afList数组提取特征值构建特征数组feature，通过对feature排序提升排序效率 
-
  */ 

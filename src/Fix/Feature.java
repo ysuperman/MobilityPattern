@@ -10,24 +10,26 @@ import java.util.Scanner;
 
 
 public class Feature {
-	public String id;
+	//public String id;
+	public long id;
 	public int time;
 	public int index;
 	private static int idLen;
-	public  Feature(String term,int idx){
-		this.id=term.substring(0, idLen);
+	public static Feature[] feature=new Feature[6500000]; 
+	private  Feature(String term,int idx){
+		//this.id=term.substring(0, idLen);
+		this.id=Long.valueOf(term.substring(0, idLen));
 		this.index=idx;
 		this.time=Integer.valueOf(term.substring(idLen+10,idLen+12))*3600;
 		this.time+=Integer.valueOf(term.substring(idLen+12,idLen+14))*60;
 		this.time+=Integer.valueOf(term.substring(idLen+14,idLen+16));
 	}
-	public static Feature[] createFeature(ArrayList<String> afList,int idLength){
+	public static void createFeature(ArrayList<String> afList,int idLength){
 		int Size=afList.size();
 		idLen=idLength;
-		Feature re[]=new Feature[Size];
 		for (int i=0;i<Size;i++)
-			re[i]=new Feature(afList.get(i),i);
-		return re;
+			feature[i]=new Feature(afList.get(i),i);
+		
 	}
 
 	public static void main(String argv[]) throws Exception {
@@ -50,12 +52,11 @@ public class Feature {
 			if (FileList.size()==0) return;
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outFile));
-			Feature feature[]=Feature.createFeature(FileList,18);
+			Feature.createFeature(FileList,18);
 			for (int i=0;i<feature.length;i++){
-				af=feature[i].id+","+String.valueOf(feature[i].time)+"\n";
+				af=Feature.feature[i].id+","+Feature.feature[i].time+"\n";
 				bw.write(af);
 			}
 			bw.close();
-				
 	}
 }
