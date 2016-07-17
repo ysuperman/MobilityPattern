@@ -67,7 +67,15 @@ public class Config {
 	
 	public static void setDay(String Day)
 	{
-		configs.put("date", Day);
+		configs.put(Date, Day);
+		  for(String key:WorkPathGenerateKeys){
+	        	String value = configs.get(WorkPath)+File.separator+configs.get(Date)+File.separator+key;
+	        	configs.put(key, value);
+	        }
+	        for(String key:PatternPathGenerateKeys){
+	        	String value = configs.get(PatternPath)+File.separator+configs.get(Date)+File.separator+key;
+	        	configs.put(key, value);
+	        }
 	}
 	public static String getAttr(String attrName){
 		return configs.get(attrName);
