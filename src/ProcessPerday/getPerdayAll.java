@@ -6,7 +6,7 @@ import Config.Config;
 public class getPerdayAll {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
 		try{
 		long startTime = 0,endTime=0;
 		Scanner sc=new Scanner(System.in);
@@ -17,7 +17,7 @@ public class getPerdayAll {
 		while (s2.compareTo(s3)>=0)	{
 			try{
 				startTime=System.currentTimeMillis();
-
+				getGoodUser.Handle();
 				getGoodRecord.Handle();
 				getStayRecord.Handle();
 				System.out.println("Finished.");
