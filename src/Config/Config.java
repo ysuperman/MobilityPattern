@@ -65,8 +65,10 @@ public class Config {
 	private static Map<String, String> configs = new HashMap<String, String>();
 	private static String contextPath = ".";
 	
-	public static void setDay(String Day)
+	public static String nextDay(String Day)
 	{
+		int d=Integer.parseInt(Day);
+		Day=String.valueOf(d+1);
 		configs.put(Date, Day);
 		  for(String key:WorkPathGenerateKeys){
 	        	String value = configs.get(WorkPath)+File.separator+configs.get(Date)+File.separator+key;
@@ -76,6 +78,7 @@ public class Config {
 	        	String value = configs.get(PatternPath)+File.separator+configs.get(Date)+File.separator+key;
 	        	configs.put(key, value);
 	        }
+	        return Day;
 	}
 	public static String getAttr(String attrName){
 		return configs.get(attrName);
@@ -128,7 +131,11 @@ public class Config {
     public static void init() throws Exception{
     	Config.loadProgramConfig("."+File.separator+"input");
 	}
-    
+    public static void init(String Day)throws Exception{
+    	Config.loadProgramConfig("."+File.separator+"input");
+    	if (!Day.equals(getAttr(Date)))  
+    		 throw new Exception("配置文件中日期与控制台输入起始日期不一致");
+    }
     public static void main(String[] args)throws Exception{
     	init();
     	for(String key:configs.keySet()){

@@ -227,6 +227,8 @@ public class getStayRecord {
 	}
 	//输出StayRecord用户停留点信息
 	public static void exportStayRecord(String stayRecordFileName)throws Exception{
+		File stayrecordpath=new File(Config.getAttr(Config.StayRecordPath));
+		if (!stayrecordpath.exists()) stayrecordpath.mkdirs();
 		stayRecordFileName = Config.getAttr(Config.StayRecordPath)+File.separator + stayRecordFileName;
 		System.out.println("Now exporting StayRecord: "+stayRecordFileName);
 		BufferedWriter bw = new BufferedWriter(new FileWriter(stayRecordFileName));
@@ -277,24 +279,26 @@ public class getStayRecord {
 				System.out.println(user.getId());
 		}
 	}
-	
-	public static void main(String[] args)throws Exception{
-		Config.init();
+	public static void Handle() throws Exception{
 		File goodRecordPath = new File(Config.getAttr(Config.GoodRecordPath));
 		File[] goodRecordFiles = goodRecordPath.listFiles();
 		int j=0;
 		for(File file:goodRecordFiles){
 			importRawRecord(file);
 			calStayRecord();
-			stat();
-			//exportStayRecord(file.getName());
+			//stat();
+			exportStayRecord(file.getName());
 			//if(++j>=1)
-				break;
+			//	break;
 		}
 		System.out.println("finish");
 		
 		for(int i=0;i<11;i++)
 			System.out.println(i+":"+stat[i]);
+	}
+	public static void main(String[] args)throws Exception{
+		Config.init();
+		Handle();
 		System.out.println("finish");
 	}
 }

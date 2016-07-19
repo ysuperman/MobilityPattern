@@ -88,12 +88,6 @@ public class BJmobile2014new_n {
 	/*
 	*修改Config.xml中的日期至下一天
 	*/
-	public static String  nextDay(String Day)	{
-		int d=Integer.parseInt(Day);
-		Day=String.valueOf(d+1);
-		Config.setDay(Day);
-		return Day;
-	}
 	/*
 	 * 在1fixed文件夹中创建两位尾数命名的txt文件
 	 */
@@ -231,66 +225,72 @@ public class BJmobile2014new_n {
 		System.gc();
 	}
 	
-	public static void main(String[] args)throws Exception{
-		
+	public static void main(String[] args){
+		try{
 		Scanner sc=new Scanner(System.in);
 		String s1=sc.nextLine();
 		String s3=s1;
 		String s2=sc.nextLine();
-		Config.init();
+		Config.init(s1);
 		while (s2.compareTo(s3)>=0)	{
-//			try{
-//				Cnt_records=0;
-//				Cnt_usl_records=0;
-//				Cnt_rep_records=0;
-//				Cnt_usf_records=0;
-//				Cnt_users=0;
-//				Cnt_interval_n=0;
-//				Cnt_interval_t=0;
-//				startTime=System.currentTimeMillis();
-//				cityMaxLon = Double.valueOf(Config.getAttr(Config.CityMaxLon));
-//				cityMinLon = Double.valueOf(Config.getAttr(Config.CityMinLon));
-//				cityMaxLat = Double.valueOf(Config.getAttr(Config.CityMaxLat));
-//				cityMinLat = Double.valueOf(Config.getAttr(Config.CityMinLat));
-//				DateS = Config.getAttr(Config.Date);
-//				idLen = Integer.valueOf(Config.getAttr(Config.IdLength));
-//				File rawPath = new File(Config.getAttr(Config.RawPath));
-//				File[] rawFiles = rawPath.listFiles();
-//				//生成输出目录
-//				mkDir(fileNames_100,Config.getAttr(Config.FixedPath));
-//		
-//				//分割raw文件
-//				for(int i=0;i< rawFiles.length;i++){
-//					splitFile(rawFiles[i]);
-//				}
-//				//按id和timestamp排序       并删除重复记录数
-//				//fixedFiles=new File(Config.getAttr(Config.FixedPath)).listFiles();
-//				feature=Feature.feature;
-//				for(int i=0;i< fixedFiles.length;i++){
-//							sortByIdTime(fixedFiles[i]);
-//							deleteRepeat(fixedFiles[i]);
-//				}
-//		
-//			}catch (Exception e){
-//						e.printStackTrace();
-//			}
-//			finally{
-//						System.out.println("finish");
-//						System.out.println("总记录数："+String.valueOf(Cnt_records));
-//						System.out.println("无效记录数："+String.valueOf(Cnt_usl_records));
-//						System.out.println("重复记录数："+String.valueOf(Cnt_rep_records));
-//						System.out.println("有效记录数："+String.valueOf(Cnt_usf_records));
-//						System.out.println("有效用户数："+String.valueOf(Cnt_users));
-//						Avg_records=(double)Cnt_usf_records/(double)Cnt_users;
-//						System.out.println("平均用户有效记录数："+String.valueOf(Avg_records));
-//						Avg_interval=(double)Cnt_interval_t/(double)Cnt_interval_n;
-//						System.out.println("平均相邻时间间隔"+String.valueOf(Cnt_interval_t)+","+String.valueOf(Cnt_interval_n)+","+String.valueOf(Avg_interval));
-//						endTime=System.currentTimeMillis();
-//						System.out.println("执行时间："+(endTime-startTime)/1000.0f+"s");
-//			}
-			s3=nextDay(s3);
+			try{
+				Cnt_records=0;
+				Cnt_usl_records=0;
+				Cnt_rep_records=0;
+				Cnt_usf_records=0;
+				Cnt_users=0;
+				Cnt_interval_n=0;
+				Cnt_interval_t=0;
+				startTime=System.currentTimeMillis();
+				cityMaxLon = Double.valueOf(Config.getAttr(Config.CityMaxLon));
+				cityMinLon = Double.valueOf(Config.getAttr(Config.CityMinLon));
+				cityMaxLat = Double.valueOf(Config.getAttr(Config.CityMaxLat));
+				cityMinLat = Double.valueOf(Config.getAttr(Config.CityMinLat));
+				DateS = Config.getAttr(Config.Date);
+				idLen = Integer.valueOf(Config.getAttr(Config.IdLength));
+				File rawPath = new File(Config.getAttr(Config.RawPath));
+				File[] rawFiles = rawPath.listFiles();
+				//生成输出目录
+				mkDir(fileNames_100,Config.getAttr(Config.FixedPath));
+		
+				//分割raw文件
+				for(int i=0;i< rawFiles.length;i++){
+					splitFile(rawFiles[i]);
+				}
+				//按id和timestamp排序       并删除重复记录数
+				//fixedFiles=new File(Config.getAttr(Config.FixedPath)).listFiles();
+				feature=Feature.feature;
+				for(int i=0;i< fixedFiles.length;i++){
+							sortByIdTime(fixedFiles[i]);
+							deleteRepeat(fixedFiles[i]);
+				}
+				
+				System.out.println("Finished.");
+			}catch (Exception e){
+						e.printStackTrace();
+						System.out.println("An Error occured.");
+			}
+			finally{
+					    System.out.println("日期："+DateS);
+						System.out.println("总记录数："+String.valueOf(Cnt_records));
+						System.out.println("无效记录数："+String.valueOf(Cnt_usl_records));
+						System.out.println("重复记录数："+String.valueOf(Cnt_rep_records));
+						System.out.println("有效记录数："+String.valueOf(Cnt_usf_records));
+						System.out.println("有效用户数："+String.valueOf(Cnt_users));
+						Avg_records=(double)Cnt_usf_records/(double)Cnt_users;
+						System.out.println("平均用户有效记录数："+String.valueOf(Avg_records));
+						Avg_interval=(double)Cnt_interval_t/(double)Cnt_interval_n;
+						System.out.println("平均相邻时间间隔"+String.valueOf(Cnt_interval_t)+","+String.valueOf(Cnt_interval_n)+","+String.valueOf(Avg_interval));
+						endTime=System.currentTimeMillis();
+						System.out.println("执行时间："+(endTime-startTime)/1000.0f+"s");
+						s3=Config.nextDay(s3);
+			}
+		}//end while
+		}catch (Exception e){
+			e.printStackTrace();
+			System.out.println("Init error.");
 		}
-	}
+	}//end main
 }
 /*修改自BJmobile.java。
  *整合了BJmobile2014.java中关于ID取Hash后两位以及原始数据项格式判断的代码。
@@ -306,3 +306,9 @@ public class BJmobile2014new_n {
  * 构造Feature类，处理数据项特征值（ID，时间）相关
         将从1fixed中文件读取的afList数组提取特征值构建特征数组feature，通过对feature排序提升排序效率 
  */ 
+
+/*2016/7/19
+ * 新增对日期的输出
+ * 删除nextDay方法的定义，改为调用Config.nextDay方法，调用Config.init改为调用Config.init(currentDay)
+ * */
+ 

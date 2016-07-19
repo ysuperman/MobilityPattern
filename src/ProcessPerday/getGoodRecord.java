@@ -54,6 +54,8 @@ public class getGoodRecord {
 		for(File file:files){
 			System.out.println("Now selecting good record from:"+file.getAbsolutePath());
 			br = new BufferedReader(new FileReader(file));
+			File goodrecordpath=new File(Config.getAttr(Config.GoodRecordPath));
+			if (!goodrecordpath.exists()) goodrecordpath.mkdirs();
 			bw = new BufferedWriter(new FileWriter(Config.getAttr(Config.GoodRecordPath)+File.separator+file.getName()));
 			while((af=br.readLine())!=null){ 
 				subAf = af.substring(0,idLength);
@@ -64,13 +66,16 @@ public class getGoodRecord {
 			bw.close();
 		}
 	}
-	public static void main(String[] args)throws Exception{
-		Config.init();
+	public static void Handle() throws Exception{
 		String goodUserFileName = Config.getAttr(Config.GoodUserPath)+File.separator+"goodUser.txt";
 		readGoodUserList(goodUserFileName);
 		File withPosPath = new File(Config.getAttr(Config.FixedPath));
 		File[] withPosFiles = withPosPath.listFiles();
 		selectGoodRecord(withPosFiles);
+	}
+	public static void main(String[] args)throws Exception{
+		Config.init();
+		Handle();
 		System.out.println("finish");
 	}
 }

@@ -141,6 +141,8 @@ public class getGoodUser {
 		for(File file:files){
 			System.out.println("Now creating time span with "+file.getAbsolutePath());
 			String name = file.getName();
+			File timespanpath=new File(Config.getAttr(Config.TimeSpanPath));
+			if (!timespanpath.exists()) timespanpath.mkdirs();
 			String outputFileName = Config.getAttr(Config.TimeSpanPath)+File.separator+name;
 			bw = new BufferedWriter(new FileWriter(outputFileName));
 			br = new BufferedReader(new FileReader(file));
@@ -181,6 +183,8 @@ public class getGoodUser {
 		for(File file:files){
 			System.out.println("Now creating time line with "+file.getAbsolutePath());
 			String name = file.getName();
+			File timelinepath=new File(Config.getAttr(Config.TimeLinePath));
+			if (!timelinepath.exists()) timelinepath.mkdirs();
 			String outputFileName = Config.getAttr(Config.TimeLinePath)+File.separator+name;
 			br = new BufferedReader(new FileReader(file));
 			bw = new BufferedWriter(new FileWriter(outputFileName));
@@ -293,6 +297,8 @@ public class getGoodUser {
 	public static void statTimeLine_3(File[] files)throws Exception{
 		int totalUser=0;
 		int rightUser=0;
+		File gooduserpath=new File(Config.getAttr(Config.GoodUserPath));
+		if (!gooduserpath.exists()) gooduserpath.mkdirs();
 		String goodUserFileName = Config.getAttr(Config.GoodUserPath)+File.separator+"goodUser.txt";
 		bw = new BufferedWriter(new FileWriter(goodUserFileName));
 		for(File file:files){
@@ -332,8 +338,7 @@ public class getGoodUser {
 		bw.close();
 		System.out.println("good User Ratio: "+String.format("%.6f",rightUser*1.0/totalUser));
 	}
-	public static void main(String[] args)throws Exception{
-		Config.init();
+	public static void Handle() throws Exception{
 		/*
 		 * ****************************************************
 		 */
@@ -355,6 +360,10 @@ public class getGoodUser {
 		/*
 		 * ****************************************************
 		 */
+	}
+	public static void main(String[] args)throws Exception{
+		Config.init();
+		Handle();
 		System.out.println("finish");
 	}
 }
