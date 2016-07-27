@@ -1,6 +1,7 @@
 package Config;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.XMLOutputter;
 
 public class Config {
 	//Attrs
@@ -65,10 +67,8 @@ public class Config {
 	private static Map<String, String> configs = new HashMap<String, String>();
 	private static String contextPath = ".";
 	
-	public static String nextDay(String Day)
+	public static String setDay(String Day)
 	{
-		int d=Integer.parseInt(Day);
-		Day=String.valueOf(d+1);
 		configs.put(Date, Day);
 		  for(String key:WorkPathGenerateKeys){
 	        	String value = configs.get(WorkPath)+File.separator+configs.get(Date)+File.separator+key;
@@ -136,10 +136,22 @@ public class Config {
     	if (!Day.equals(getAttr(Date)))  
     		 throw new Exception("配置文件中日期与控制台输入起始日期不一致");
     }
-    public static void main(String[] args)throws Exception{
-    	init();
-    	for(String key:configs.keySet()){
-    		System.out.println(configs.get(key));
-    	}
-    }
+//    public static void main(String[] args)throws Exception{
+//    	init();
+//    	for(String key:configs.keySet()){
+//    		System.out.println(configs.get(key));
+//    	}
+//    }
+    	public static void main(String[] args)throws Exception{
+    		//将Config.xml配置文件中的Date项日期更改至下一天。
+    		String configFilePath = "."+File.separator+"input" + File.separator + "Config" + File.separator + "Config.xml";
+            SAXBuilder sb = new SAXBuilder();
+            Document doc;
+    		doc = sb.build(configFilePath);
+    		Element root = doc.getRootElement();
+    		Element Date=root.getChild(Config.Date);
+    		Date.setText(String.valueOf(Integer.parseInt(Date.getText())+1));
+    		XMLOutputter outp=new XMLOutputter();
+    		outp.output(doc,new FileOutputStream(configFilePath));
+    	}//debug
 }

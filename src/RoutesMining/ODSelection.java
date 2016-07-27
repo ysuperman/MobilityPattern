@@ -102,8 +102,8 @@ public class ODSelection {
 					label=i;
 					continue;
 				}
-				//如果终点在D范围内
-				if(label!=-1 && i-label+1>=40 && lon<DMaxLon && lon>DMinLon && lat<DMaxLat && lat>DMinLat){
+				//如果终点在D范围内//-  && i-label+1>=40 
+				if(label!=-1 && lon<DMaxLon && lon>DMinLon && lat<DMaxLat && lat>DMinLat){
 					for(int j=label;j<=i;j++){
 						StayPoint point = new StayPoint(user.getStayPoints().get(j));
 						if(j==label)
@@ -119,7 +119,10 @@ public class ODSelection {
 	}
 	//导出OD数据
 	public static void exportOD(String ODRecordFileName)throws Exception{
+		File dir=new File( Config.getAttr(Config.ODRecordPath));
+		if (!dir.exists()) dir.mkdirs();
 		ODRecordFileName = Config.getAttr(Config.ODRecordPath)+File.separator + ODRecordFileName;
+		
 		System.out.println("Now exporting ODRecord: "+ODRecordFileName);
 		BufferedWriter bw = new BufferedWriter(new FileWriter(ODRecordFileName,true));
 		DecimalFormat df = new DecimalFormat("#.000000");
@@ -142,7 +145,9 @@ public class ODSelection {
 			//	continue;
 			importStayRecord(file);
 			extractOD();
-			exportOD("moreThan40Out.txt");
+		//	exportOD("moreThan40Out.txt");
+			exportOD("OutAll.txt");
+			
 			//if(k>=40)
 			//	break;
 		}

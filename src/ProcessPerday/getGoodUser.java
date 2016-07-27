@@ -44,7 +44,7 @@ public class getGoodUser {
 			String af,last=null;
 			while((af=br.readLine())!=null){
 				recordCount+=1;
-				af=af.substring(0,19);
+				af=af.substring(0,Integer.parseInt(Config.getAttr(Config.IdLength)));
 				if(!af.equals(last))
 					userCount+=1;
 				last=af;
@@ -69,7 +69,7 @@ public class getGoodUser {
 			br = new BufferedReader(new FileReader(file));
 			String af;
 			while((af=br.readLine())!=null){
-				thisUser=af.substring(0,19);
+				thisUser=af.substring(0,Integer.parseInt(Config.getAttr(Config.IdLength)));
 				if(!thisUser.equals(lastUser)){
 					lastTime = format.parse(af.substring(20,35));
 					lastUser = thisUser;
@@ -106,7 +106,7 @@ public class getGoodUser {
 			br = new BufferedReader(new FileReader(file));
 			String af;
 			while((af=br.readLine())!=null){
-				thisUser = af.substring(0,19);
+				thisUser = af.substring(0,Integer.parseInt(Config.getAttr(Config.IdLength)));
 				if(!thisUser.equals(lastUser)){
 					if(lastUser!=null){
 						int t = (int)((lastTime.getTime()-firstTime.getTime())/1000.0/60.0/60.0);
@@ -150,7 +150,7 @@ public class getGoodUser {
 			String[] afList;
 			while((af=br.readLine())!=null){
 				afList = af.split(",");
-				thisUser = af.substring(0,19);
+				thisUser = af.substring(0,Integer.parseInt(Config.getAttr(Config.IdLength)));
 				if(!thisUser.equals(lastUser)){
 					if(lastUser!=null){
 						//存入文件

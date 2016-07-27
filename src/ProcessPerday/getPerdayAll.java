@@ -17,7 +17,7 @@ public class getPerdayAll {
 		while (s2.compareTo(s3)>=0)	{
 			try{
 				startTime=System.currentTimeMillis();
-				getGoodUser.Handle();
+//				getGoodUser.Handle();
 				getGoodRecord.Handle();
 				getStayRecord.Handle();
 				System.out.println("Finished.");
@@ -29,7 +29,7 @@ public class getPerdayAll {
 					System.out.println("日期："+Config.getAttr(Config.Date));
 					endTime=System.currentTimeMillis();
 					System.out.println("执行时间："+(endTime-startTime)/1000.0f+"s");
-					s3=Config.nextDay(s3);
+					s3=Config.setDay(String.valueOf(Integer.parseInt(s3)+1));
 			}
 		}//end while
 		}catch (Exception e){

@@ -103,10 +103,10 @@ public class BJmobile2014new_n {
 			File fixedFile = new File(fixedFileName);
 			if(!fixedFile.exists())
 				fixedFile.createNewFile();
-			else{
-				BufferedWriter bw = new BufferedWriter(new FileWriter(fixedFile));
-				bw.close();
-			}
+//			else{
+//				BufferedWriter bw = new BufferedWriter(new FileWriter(fixedFile));
+//				bw.close();
+//			}
 			fixedFiles[i]=fixedFile;
 		}
 		Arrays.sort(fixedFiles);
@@ -254,9 +254,9 @@ public class BJmobile2014new_n {
 				mkDir(fileNames_100,Config.getAttr(Config.FixedPath));
 		
 				//分割raw文件
-				for(int i=0;i< rawFiles.length;i++){
-					splitFile(rawFiles[i]);
-				}
+//				for(int i=0;i< rawFiles.length;i++){
+//					splitFile(rawFiles[i]);
+//				}
 				//按id和timestamp排序       并删除重复记录数
 				//fixedFiles=new File(Config.getAttr(Config.FixedPath)).listFiles();
 				feature=Feature.feature;
@@ -283,7 +283,7 @@ public class BJmobile2014new_n {
 						System.out.println("平均相邻时间间隔"+String.valueOf(Cnt_interval_t)+","+String.valueOf(Cnt_interval_n)+","+String.valueOf(Avg_interval));
 						endTime=System.currentTimeMillis();
 						System.out.println("执行时间："+(endTime-startTime)/1000.0f+"s");
-						s3=Config.nextDay(s3);
+						s3=Config.setDay(String.valueOf(Integer.parseInt(s3)+1));
 			}
 		}//end while
 		}catch (Exception e){
